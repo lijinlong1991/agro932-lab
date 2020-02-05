@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
@@ -1700,6 +1699,7 @@ summary {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -1795,198 +1795,87 @@ summary {
 </ul>
 <hr />
 </div>
-<div id="unix-commands-how-to-get-help" class="section level1">
-<h1>Unix Commands: how to get help</h1>
-<p>If you don’t know how to use a command i.e. you don’t know about its parameters and return type etc, then you can make use of <code>–-help</code> command.</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoibGVzcyAtLWhlbHAifQ== -->
-<pre class="r"><code>less --help</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>–</p>
-<div id="how-to-use-help-command" class="section level3">
-<h3>How to use help command</h3>
-<p>Simply type <code>help</code>, which is used for listing all possible commands that are pre-installed.</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjpbImhlbHAiLCJoZWxwIGNkIl19 -->
-<pre class="r"><code>help
-help cd</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<hr />
-</div>
-</div>
-<div id="unix-commands-how-to-get-help-1" class="section level1">
-<h1>Unix Commands: how to get help</h1>
-<div id="the-man-command-or-man-pages" class="section level3">
-<h3>The <code>man</code> command or man pages</h3>
-<p>Man is used when you want to get a detailed manual of a command.</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjpbIm1hbiBta2RpciIsIm1hbiBiYXNoIl19 -->
-<pre class="r"><code>man mkdir
-man bash</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<hr />
-</div>
-</div>
-<div id="slurm-commands" class="section level1">
-<h1>Slurm Commands</h1>
-<div id="getting-to-know-slurm" class="section level2">
-<h2>Getting to know slurm</h2>
-<p><a href="https://slurm.schedmd.com/overview.html">Slurm</a> is job managing system: you submit jobs via batch scripts. These batch scripts have common headers; we will see one below.</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjpbInNpbmZvICMgdmlldyBpbmZvcm1hdGlvbiBhYm91dCBTbHVybSBub2RlcyBhbmQgcGFydGl0aW9ucy4iLCJzaW5mbyAtLWhlbHAiLCJzaW5mbyB8IGhlYWQgLW4gMTAiXX0= -->
-<pre class="r"><code>sinfo # view information about Slurm nodes and partitions.
-sinfo --help
-sinfo | head -n 10</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<ul>
-<li><p>Here we see our <code>PARTITION</code> and <code>TIME LIMIT</code>, and all of their inferior but still useful friends.</p></li>
-<li><p>Note that there is a column of <code>STATE</code>, which indicates the state of the machine.</p></li>
-</ul>
-<hr />
-</div>
-</div>
-<div id="slurm-commands-1" class="section level1">
-<h1>Slurm Commands</h1>
-<div id="getting-to-know-slurm-1" class="section level2">
-<h2>Getting to know slurm</h2>
-<p>A better way of looking at what’s going on on each machine is with <code>squeue</code>, which is the job queue.</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjpbInNxdWV1ZSAtLWhlbHAiLCIjIHZpZXcgaW5mb3JtYXRpb24gYWJvdXQgam9icyBsb2NhdGVkIGluIHRoZSBTbHVybSBzY2hlZHVsaW5nIHF1ZXVlLiIsInNxdWV1ZSAiLCJzcXVldWUgfCB3YyAtbCAjIGhvdyBtYW55IGpvYnMgYXJlIHJ1bm5pbmciLCJzcXVldWUgfCBncmVwIFwianlhbmdsYWJcIiJdfQ== -->
-<pre class="r"><code>squeue --help
-# view information about jobs located in the Slurm scheduling queue.
-squeue 
-squeue | wc -l # how many jobs are running
-squeue | grep &quot;jyanglab&quot;</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<ul>
-<li>This shows each <strong>job ID</strong> (very important), partition the job is running on, name of person running the job.</li>
-<li>Also note <code>TIME</code> which is how long a job has been running.</li>
-</ul>
-<p>–</p>
-<p>We can use <code>squeue</code> to find the job ID, allowing us to cancel a job with <code>scancel</code>. Let’s kill jyang21’s job:</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoic2NhbmNlbCBKT0JJRCJ9 -->
-<pre class="r"><code>scancel JOBID</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<hr />
-</div>
-</div>
-<div id="warnings" class="section level1">
-<h1>Warnings!!!</h1>
-<p><strong>Do not run anything on the headnode</strong> except cluster management tools (squeue, sbatch, etc), compilation tasks (but usually ask CSE help for big apps), or downloading files. - If you run anything on the headnode, you will disgrace your lab.</p>
-<p>Instead, you can get a <code>bash</code> terminal using <code>srun</code>:</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoic3J1biAtLW5vZGVzPTEgLS1tZW0gNEcgLS1udGFza3M9NCAtLWxpY2Vuc2VzPWNvbW1vbiAtLXRpbWU9ODowMDowMCAtLXB0eSBiYXNoIn0= -->
-<pre class="r"><code>srun --nodes=1 --mem 4G --ntasks=4 --licenses=common --time=8:00:00 --pty bash</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>–</p>
-<p><strong>Monitor your disk space</strong>, as it can fill up quickly.</p>
-<ul>
-<li>You will see the disk usage every time you login</li>
-</ul>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiaGNjLWR1In0= -->
-<pre class="r"><code>hcc-du</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<hr />
-</div>
-<div id="simulate-ngs-data" class="section level1">
-<h1>Simulate NGS data</h1>
-<div id="install-a-software-on-crane" class="section level3">
-<h3>Install a software on crane</h3>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjpbIiMgaHR0cHM6Ly9naXRodWIuY29tL2xoMy93Z3NpbSIsImdpdCBjbG9uZSBodHRwczovL2dpdGh1Yi5jb20vbGgzL3dnc2ltLmdpdCIsIiIsIiMgY29tcGlsYXRpb24iLCJnY2MgLWcgLU8yIC1XYWxsIC1vIHdnc2ltIHdnc2ltLmMgLWx6IC1sbSJdfQ== -->
-<pre class="r"><code># https://github.com/lh3/wgsim
-git clone https://github.com/lh3/wgsim.git
-
-# compilation
-gcc -g -O2 -Wall -o wgsim wgsim.c -lz -lm</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-</div>
-<div id="put-the-software-in-your-searching-path" class="section level3">
-<h3>Put the software in your searching path</h3>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjpbImNkIH4iLCJ2aSAuYmFzaF9wcm9maWxlIl19 -->
-<pre class="r"><code>cd ~
-vi .bash_profile</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>Then copy the following to your <code>.bash_profile</code></p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiUEFUSD0kUEFUSDp+L2Jpbi93Z3NpbS8ifQ== -->
-<pre class="r"><code>PATH=$PATH:~/bin/wgsim/</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<hr />
-</div>
-</div>
-<div id="reference-genome" class="section level1">
-<h1>Reference genome</h1>
-<div id="ensemblplants" class="section level2">
-<h2>EnsemblPlants</h2>
-<ul>
-<li>Bread Wheat: <a href="https://plants.ensembl.org/Triticum_aestivum/Info/Index">Triticum aestivum</a></li>
-<li>Common bean: <a href="https://plants.ensembl.org/Phaseolus_vulgaris/Info/Index">Phaseolus vulgaris</a></li>
-<li>Domesticated sunflower: <a href="https://plants.ensembl.org/Helianthus_annuus/Info/Index">Helianthus annuus</a></li>
-<li>Maize: <a href="https://plants.ensembl.org/Zea_mays/Info/Index?db=core">Zea mays</a></li>
-<li>Soybean: <a href="http://plants.ensembl.org/Glycine_max/Info/Index">Glycine max</a></li>
-</ul>
-<p>–</p>
-</div>
-<div id="important-info" class="section level2">
-<h2>Important info</h2>
-<ul>
-<li>Version</li>
-<li>Gene annotation: GFF3</li>
-</ul>
-<hr />
-</div>
-</div>
 <div id="ngs-data-simulation-using-wgsim" class="section level1">
+<h1>NGS data simulation using <code>wgsim</code></h1>
+<pre><code>Usage:   wgsim [options] &lt;in.ref.fa&gt; &lt;out.read1.fq&gt; &lt;out.read2.fq&gt;
+
+Options: -e FLOAT      base error rate [0.020]
+         -d INT        outer distance between the two ends [500]
+         -s INT        standard deviation [50]
+         -N INT        number of read pairs [1000000]
+         -1 INT        length of the first read [70]
+         -2 INT        length of the second read [70]
+         -r FLOAT      rate of mutations [0.0010]
+         -R FLOAT      fraction of indels [0.15]
+         -X FLOAT      probability an indel is extended [0.30]
+         -S INT        seed for random generator [-1]
+         -A FLOAT      disgard if the fraction of ambiguous 
+                       bases higher than FLOAT [0.05]
+         -h            haplotype mode</code></pre>
+<div id="type-in-the-following-command" class="section level4">
+<h4>Type in the following command:</h4>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjpbIndnc2ltIGxhbWJkYS5mYSAtZSAwIC1kIDUwMCAtTiA1MDAwIC0xIDEwMCAtMiAxMDAgLXIgMC4wMSAgXFwiLCItUiAwIC1YIDAgLVMgMTIzNDU2NyAtaCBsMS5yZWFkMS5mcSBsMS5yZWFkMi5mcSJdfQ== -->
+<pre class="r"><code>wgsim lambda.fa -e 0 -d 500 -N 5000 -1 100 -2 100 -r 0.01  \
+-R 0 -X 0 -S 1234567 -h l1.read1.fq l1.read2.fq</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<hr />
+</div>
+</div>
+<div id="download-reference-from-ensemblplants" class="section level1">
+<h1>Download Reference from EnsemblPlants</h1>
+<p>Maize <a href="https://plants.ensembl.org/Zea_mays/Info/Index">reference genome</a></p>
+<div id="change-to-largedatalab4-folder" class="section level4">
+<h4>Change to <code>largedata\lab4</code> folder:</h4>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjpbImNkIGxhcmdlZGF0YSIsIm1rZGlyIGxhYjQiLCJjZCBsYWI0Il19 -->
+<pre class="r"><code>cd largedata
+mkdir lab4
+cd lab4</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="then-use-wget-to-download-the-reference-genome" class="section level4">
+<h4>Then use <code>wget</code> to download the reference genome:</h4>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjpbIndnZXQgZnRwOi8vZnRwLmVuc2VtYmxnZW5vbWVzLm9yZy9wdWIvcGxhbnRzL3JlbGVhc2UtNDYvZmFzdGEvemVhX21heXMvZG5hL1plYV9tYXlzLkI3M19SZWZHZW5fdjQuZG5hLmNocm9tb3NvbWUuTXQuZmEuZ3oiLCIiLCIjIyMgdGhlbiB1bnppcCBpdCIsImd1bnppcCBaZWFfbWF5cy5CNzNfUmVmR2VuX3Y0LmRuYS5jaHJvbW9zb21lLk10LmZhLmd6Il19 -->
+<pre class="r"><code>wget ftp://ftp.ensemblgenomes.org/pub/plants/release-46/fasta/zea_mays/dna/Zea_mays.B73_RefGen_v4.dna.chromosome.Mt.fa.gz
+
+### then unzip it
+gunzip Zea_mays.B73_RefGen_v4.dna.chromosome.Mt.fa.gz</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<hr />
+</div>
+</div>
+<div id="ngs-data-simulation-using-wgsim-1" class="section level1">
 <h1>NGS data simulation using <code>wgsim</code></h1>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjpbIndnc2ltIGxhbWJkYS5mYSAtTiA1MDAwIC0xIDEwMCAtMiAxMDAgLXIgMC4wMSBcXFxcIiwiLVIgMCAtWCAwIC1TIDEyMzQ1NjcgbDEucmVhZDEuZnEgbDEucmVhZDIuZnEiXX0= -->
-<pre class="r"><code>wgsim lambda.fa -N 5000 -1 100 -2 100 -r 0.01 \\
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<div id="type-in-the-following-command-1" class="section level4">
+<h4>Type in the following command:</h4>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjpbIndnc2ltIFplYV9tYXlzLkI3M19SZWZHZW5fdjQuZG5hLmNocm9tb3NvbWUuTXQuZmEgXFwiLCItZSAwIC1kIDUwMCAtTiA1MDAwIC0xIDEwMCAtMiAxMDAgLXIgMC4wMSAgXFwiLCItUiAwIC1YIDAgLVMgMTIzNDU2NyBsMS5yZWFkMS5mcSBsMS5yZWFkMi5mcSJdfQ== -->
+<pre class="r"><code>wgsim Zea_mays.B73_RefGen_v4.dna.chromosome.Mt.fa \
+-e 0 -d 500 -N 5000 -1 100 -2 100 -r 0.01  \
 -R 0 -X 0 -S 1234567 l1.read1.fq l1.read2.fq</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <ul>
-<li>Reference: 50k lambda genome downloaded from <a href="https://www.ncbi.nlm.nih.gov/nuccore/215104#feature_J02459.1">NCBI</a>
+<li>Reference (about 500k)
 <ul>
-<li><code>lambda.fa</code></li>
+<li><code>Zea_mays.B73_RefGen_v4.dna.chromosome.Mt.fa</code></li>
 </ul></li>
 <li>20x coverage
 <ul>
@@ -2007,50 +1896,140 @@ vi .bash_profile</code></pre>
 </ul>
 <hr />
 </div>
-<div id="ngs-data-simulation-using-wgsim-1" class="section level1">
+</div>
+<div id="ngs-data-simulation-using-wgsim-2" class="section level1">
 <h1>NGS data simulation using <code>wgsim</code></h1>
-<div id="simulate-5-individals" class="section level2">
-<h2>simulate 5 individals</h2>
+<div id="simulate-10-individals" class="section level2">
+<h2>simulate 10 individals</h2>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjpbImZvciBpIGluIHsxLi41fSIsImRvIiwiICAgd2dzaW0gbGFtYmRhLmZhIC1OIDUwMDAgLTEgMTAwIC0yIDEwMCAtciAwLjAxIC1SIDAgLVggMCBsJGkucmVhZDEuZnEgbCRpLnJlYWQyLmZxIiwiZG9uZSIsIiIsIiMgY2hlY2sgaG93IG1hbnkgcmVhZHMiLCJ3YyAtbCBsMS5yZWFkMS5mcSJdfQ== -->
-<pre class="r"><code>for i in {1..5}
+<!-- rnb-source-begin eyJkYXRhIjpbImZvciBpIGluIHsxLi4xMH0iLCJkbyIsIiAgIHdnc2ltIFplYV9tYXlzLkI3M19SZWZHZW5fdjQuZG5hLmNocm9tb3NvbWUuTXQuZmEgLWUgMCAtZCA1MDAgLU4gNTAwMDAgLTEgMTAwIC0yIDEwMCAtciAwLjEgIC1SIDAgLVggMCBsJGkucmVhZDEuZnEgbCRpLnJlYWQyLmZxIiwiZG9uZSJdfQ== -->
+<pre class="r"><code>for i in {1..10}
 do
-   wgsim lambda.fa -N 5000 -1 100 -2 100 -r 0.01 -R 0 -X 0 l$i.read1.fq l$i.read2.fq
-done
-
-# check how many reads
-wc -l l1.read1.fq</code></pre>
+   wgsim Zea_mays.B73_RefGen_v4.dna.chromosome.Mt.fa -e 0 -d 500 -N 50000 -1 100 -2 100 -r 0.1  -R 0 -X 0 l$i.read1.fq l$i.read2.fq
+done</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>–</p>
+<div id="check-how-many-reads" class="section level4">
+<h4>check how many reads</h4>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjpbIndjIC1sIGwxLnJlYWQxLmZxICIsIiMgc3VwcG9zZSB0byBiZSAyMDAsMDAwIGxpbmVzID0gNTAsMDAwIHJlYWRzIl19 -->
+<pre class="r"><code>wc -l l1.read1.fq 
+# suppose to be 200,000 lines = 50,000 reads</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <hr />
 </div>
 </div>
-<div id="a-procedure-to-calculate-theta-values" class="section level1">
-<h1>A procedure to calculate <span class="math inline">\(\theta\)</span> values</h1>
+</div>
+<div id="a-procedure-to-calculate-theta-and-f_st-values" class="section level1">
+<h1>A procedure to calculate <span class="math inline">\(\theta\)</span> and <span class="math inline">\(F_{ST}\)</span> values</h1>
 <div id="align-the-ngs-reads-to-the-reference-genome" class="section level3">
 <h3>1. Align the NGS reads to the reference genome</h3>
+<ul>
+<li><a href="https://github.com/lh3/bwa">bwa</a></li>
+<li><a href="https://github.com/samtools/samtools">samtools</a></li>
+</ul>
+</div>
+<div id="calculate-sfs" class="section level3">
+<h3>2. Calculate SFS</h3>
+<ul>
+<li><a href="http://www.popgen.dk/angsd/index.php/ANGSD">ANGSD</a></li>
+</ul>
+</div>
+<div id="calculate-the-thetas-and-fst-for-each-site" class="section level3">
+<h3>3. Calculate the thetas and Fst for each site</h3>
+<ul>
+<li>ANGSD</li>
+</ul>
+</div>
+</div>
+<div id="submit-a-slurm-job" class="section level1">
+<h1>Submit a Slurm job</h1>
+<ul>
+<li><p>We wrap our jobs in little batch scripts, which is nice because these also help make steps reproducible.</p></li>
+<li>To keep your directory organized, I usually keep a scripts directory (i.e., <code>slurm-script/</code> ) and log dir (i.e., <code>slurm-log</code> ) for Slurm’s logs.
+<ul>
+<li>Tip: use these logs, as these are very helpful in debugging. I separate them from my project because they fill up directories rather quickly.</li>
+</ul></li>
+</ul>
+<p>–</p>
+<p>Let’s look at an example <strong>slurm script header</strong> for a job called <code>theta</code> (which is run with script <code>theta.sh</code>).</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjpbIm1vZHVsZSBsb2FkIGJ3YSBzYW10b29scyIsIiMgaW5kZXggdGhlIHJlZmVyZW5jZSBnZW5vbWUiLCJid2EgaW5kZXggbGFtYmRhLmZhIiwiIyB1c2luZyBid2EgbWVtIHRvIGFsaWduIHRoZSByZWFkcyB0byB0aGUgcmVmZXJlbmNlIGdlbm9tZSAiLCIjID0+IHNhbXRvb2xzIHRvIGNvbnZlcnQgaW50byBiYW0gZmlsZSIsImJ3YSBtZW0gbGFtYmRhLmZhIGwxLnJlYWQxLmZxIGwxLnJlYWQyLmZxIHwgc2FtdG9vbHMgdmlldyAtYlNoIC0gPiBsMS5iYW0iXX0= -->
-<pre class="r"><code>module load bwa samtools
-# index the reference genome
-bwa index lambda.fa
-# using bwa mem to align the reads to the reference genome 
-# =&gt; samtools to convert into bam file
-bwa mem lambda.fa l1.read1.fq l1.read2.fq | samtools view -bSh - &gt; l1.bam</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjpbIiMhL2Jpbi9iYXNoIC1sIiwiI1NCQVRDSCAtRCB+cHJvamVjdHMveW91ci1jb29sLXByb2plY3QvIiwiI1NCQVRDSCAtbyB+L3lvdXItY29vbC1wcm9qZWN0L3NsdXJtLWxvZy9zdGV2ZS1zdGRvdXQtJWoudHh0IiwiI1NCQVRDSCAtZSB+L3lvdXItY29vbC1wcm9qZWN0L3NsdXJtLWxvZy9zdGV2ZS1zdGRlcnItJWoudHh0IiwiI1NCQVRDSCAtSiBzdGV2ZSIsIiNTQkFUQ0ggLXQgMjQ6MDA6MDAiLCJzZXQgLWUiLCJzZXQgLXUiLCIiLCIjIGluc2VydCB5b3VyIHNjcmlwdCBoZXJlIl19 -->
+<pre class="r"><code>#!/bin/bash -l
+#SBATCH -D ~projects/your-cool-project/
+#SBATCH -o ~/your-cool-project/slurm-log/steve-stdout-%j.txt
+#SBATCH -e ~/your-cool-project/slurm-log/steve-stderr-%j.txt
+#SBATCH -J steve
+#SBATCH -t 24:00:00
+set -e
+set -u
+
+# insert your script here</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-</div>
-<div id="do-alignment-for-5-individuals-using-bash-loop" class="section level3">
-<h3>Do alignment for 5 individuals using bash loop:</h3>
+<hr />
+<div id="an-example-slurm-batch-script-header" class="section level2">
+<h2>An Example Slurm Batch Script Header</h2>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjpbIiMgYWxpZ25tZW50IiwiZm9yIGkgaW4gezEuLjV9OyBkbyBid2EgbWVtIGxhbWJkYS5mYSBsJGkucmVhZDEuZnEgbCRpLnJlYWQyLmZxIHwgc2FtdG9vbHMgdmlldyAtYlNoIC0gPiBsJGkuYmFtOyBkb25lIiwiIyBzb3J0IiwiZm9yIGkgaW4gKi5iYW07IGRvIHNhbXRvb2xzIHNvcnQgJGkgLW8gc29ydGVkXyRpOyBkb25lIiwiIyBpbmRleCB0aGVtIiwiZm9yIGkgaW4gc29ydGVkKi5iYW07IGRvIHNhbXRvb2xzIGluZGV4ICRpOyBkb25lIl19 -->
-<pre class="r"><code># alignment
-for i in {1..5}; do bwa mem lambda.fa l$i.read1.fq l$i.read2.fq | samtools view -bSh - &gt; l$i.bam; done
+<!-- rnb-source-begin eyJkYXRhIjpbIiMhL2Jpbi9iYXNoIC1sIiwiI1NCQVRDSCAtRCB+L3Byb2plY3RzL3lvdXItY29vbC1wcm9qZWN0LyIsIiNTQkFUQ0ggLW8gfi95b3VyLWNvb2wtcHJvamVjdC9zbHVybS1sb2cvc3RldmUtc3Rkb3V0LSVqLnR4dCIsIiNTQkFUQ0ggLWUgfi95b3VyLWNvb2wtcHJvamVjdC9zbHVybS1sb2cvc3RldmUtc3RkZXJyLSVqLnR4dCIsIiNTQkFUQ0ggLUogdGhldGEiLCIjU0JBVENIIC10IDI0OjAwOjAwIiwiI1NCQVRDSCAtLW1haWwtdXNlcj15b3VyX2VtYWlsX2FkZHJlc3NAZ21haWwuY29tIiwiI1NCQVRDSCAtLW1haWwtdHlwZT1FTkQgI2VtYWlsIGlmIGVuZHMiLCIjU0JBVENIIC0tbWFpbC10eXBlPUZBSUwgI2VtYWlsIGlmIGZhaWxzIiwic2V0IC1lIiwic2V0IC11IiwiIiwiIyBpbnNlcnQgeW91ciBzY3JpcHQgaGVyZSJdfQ== -->
+<pre class="r"><code>#!/bin/bash -l
+#SBATCH -D ~/projects/your-cool-project/
+#SBATCH -o ~/your-cool-project/slurm-log/steve-stdout-%j.txt
+#SBATCH -e ~/your-cool-project/slurm-log/steve-stderr-%j.txt
+#SBATCH -J theta
+#SBATCH -t 24:00:00
+#SBATCH --mail-user=your_email_address@gmail.com
+#SBATCH --mail-type=END #email if ends
+#SBATCH --mail-type=FAIL #email if fails
+set -e
+set -u
+
+# insert your script here</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<ul>
+<li><code>D</code> sets your project directory.</li>
+<li><code>o</code> sets where standard output (of your batch script) goes.</li>
+<li><code>e</code> sets where standard error (of your batch script) goes.</li>
+<li><code>J</code> sets the job name.</li>
+<li><code>t</code> sets the time limit for the job, 24:00:00 indicates 24 hours.</li>
+<li><code>--mail</code>: will email you if the job is “END” or “FAIL”</li>
+</ul>
+<hr />
+</div>
+<div id="an-example-slurm-batch-script-header-1" class="section level2">
+<h2>An Example Slurm Batch Script Header</h2>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjpbImNkIHNsdXJtLXNjcmlwdCIsInZpIG15X3RoZXRhLnNoIiwiaSAjIGluc2VydCB0ZXh0Il19 -->
+<pre class="r"><code>cd slurm-script
+vi my_theta.sh
+i # insert text</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<ul>
+<li><p>Copy the above header to a <code>.sh</code> file and make appropriate modifications</p></li>
+<li><p>Insert the following:</p></li>
+</ul>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjpbIiMgbW9kdWxlIGxvYWQgYndhIHNhbXRvb2xzIiwiIyBjZCBsYXJnZWRhdGEvbGFiNC8iLCIiLCIjIGFsaWdubWVudCIsImZvciBpIGluIHsxLi4yfTsgZG8gYndhIG1lbSBaZWFfbWF5cy5CNzNfUmVmR2VuX3Y0LmRuYS5jaHJvbW9zb21lLk10LmZhIGwkaS5yZWFkMS5mcSBsJGkucmVhZDIuZnEgfCBzYW10b29scyB2aWV3IC1iU2ggLSA+IGwkaS5iYW07IGRvbmUiLCIjIHNvcnQiLCJmb3IgaSBpbiAqLmJhbTsgZG8gc2FtdG9vbHMgc29ydCAkaSAtbyBzb3J0ZWRfJGk7IGRvbmUiLCIjIGluZGV4IHRoZW0iLCJmb3IgaSBpbiBzb3J0ZWQqLmJhbTsgZG8gc2FtdG9vbHMgaW5kZXggJGk7IGRvbmUiXX0= -->
+<pre class="r"><code># module load bwa samtools
+# cd largedata/lab4/
+
+# alignment
+for i in {1..2}; do bwa mem Zea_mays.B73_RefGen_v4.dna.chromosome.Mt.fa l$i.read1.fq l$i.read2.fq | samtools view -bSh - &gt; l$i.bam; done
 # sort
 for i in *.bam; do samtools sort $i -o sorted_$i; done
 # index them
@@ -2058,10 +2037,24 @@ for i in sorted*.bam; do samtools index $i; done</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+<p>–</p>
+<ul>
+<li>submit the job via <code>sbatch</code>:</li>
+</ul>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjpbInNiYXRjaCAtLWxpY2Vuc2VzPWNvbW1vbiAtLW50YXNrcz0xIC0tbWVtPTVHIHNsdXJtLXNjcmlwdC9teV90aGV0YS5zaCIsIiIsIiMjIGNoZWNrIHlvdXIgam9iIHN0YXR1cyIsInNxdWV1ZSB8IGdyZXAgXCJZT1VSIFVTRVIgSURcIiJdfQ== -->
+<pre class="r"><code>sbatch --licenses=common --ntasks=1 --mem=5G slurm-script/my_theta.sh
+
+## check your job status
+squeue | grep &quot;YOUR USER ID&quot;</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 <hr />
 </div>
 </div>
-<div id="a-procedure-to-calculate-theta-values-1" class="section level1">
+<div id="a-procedure-to-calculate-theta-values" class="section level1">
 <h1>A procedure to calculate <span class="math inline">\(\theta\)</span> values</h1>
 <div id="calculate-sfs-using-angsd" class="section level3">
 <h3>2. Calculate SFS using <code>ANGSD</code></h3>
@@ -2084,17 +2077,12 @@ make HTSSRC=../htslib</code></pre>
 <h4>run angsd</h4>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjpbIiMgd3JpdGUgdGhlIGJhbSBmaWxlcyB0byBhIHR4dCBmaWxlIiwibWtkaXIgYmFtX2ZpbGVzIiwibXYgc29ydGVkKi5iYW0gYmFtX2ZpbGVzIiwiY2QgYmFtX2ZpbGVzIiwibHMgc29ydGVkKi5iYW0gPiBiYW0udHh0IiwiIiwiYW5nc2QgLWJhbSBiYW0udHh0IC1kb1NhZiAxIC1hbmMgLi4vbGFtYmRhLmZhIC1HTCAxICAtb3V0IG91dCAiLCJyZWFsU0ZTIG91dC5zYWYuaWR4ID4gb3V0LnNmcyIsIiMjIGNwIHNmcyB0byB0aGUgY2FjaGUvIGZvbGRlciIsImNwIG91dC5zZnMgLi4vLi4vLi4vY2FjaGUvIl19 -->
+<!-- rnb-source-begin eyJkYXRhIjpbIiMgd3JpdGUgdGhlIGJhbSBmaWxlcyB0byBhIHR4dCBmaWxlIiwibWtkaXIgYmFtX2ZpbGVzIiwibXYgc29ydGVkKi5iYW0gYmFtX2ZpbGVzIiwiY2QgYmFtX2ZpbGVzIiwibHMgc29ydGVkKi5iYW0gPiBiYW0udHh0Il19 -->
 <pre class="r"><code># write the bam files to a txt file
 mkdir bam_files
 mv sorted*.bam bam_files
 cd bam_files
-ls sorted*.bam &gt; bam.txt
-
-angsd -bam bam.txt -doSaf 1 -anc ../lambda.fa -GL 1  -out out 
-realSFS out.saf.idx &gt; out.sfs
-## cp sfs to the cache/ folder
-cp out.sfs ../../../cache/</code></pre>
+ls sorted*.bam &gt; bam.txt</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -2102,15 +2090,35 @@ cp out.sfs ../../../cache/</code></pre>
 </div>
 </div>
 </div>
-<div id="a-procedure-to-calculate-theta-values-2" class="section level1">
+<div id="a-procedure-to-calculate-theta-values-1" class="section level1">
 <h1>A procedure to calculate <span class="math inline">\(\theta\)</span> values</h1>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjpbImFuZ3NkIC1iYW0gYmFtLnR4dCAtZG9TYWYgMSAtYW5jIC4uL1plYV9tYXlzLkI3M19SZWZHZW5fdjQuZG5hLmNocm9tb3NvbWUuTXQuZmEgLUdMIDEgIC1vdXQgb3V0ICIsIiMgdXNlIHJlYWxTRlMgdG8gY2FsY3VsYXRlIHNmcyIsInJlYWxTRlMgb3V0LnNhZi5pZHggPiBvdXQuc2ZzIl19 -->
+<pre class="r"><code>angsd -bam bam.txt -doSaf 1 -anc ../Zea_mays.B73_RefGen_v4.dna.chromosome.Mt.fa -GL 1  -out out 
+# use realSFS to calculate sfs
+realSFS out.saf.idx &gt; out.sfs</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<div id="copy-the-result-to-cache-folder" class="section level4">
+<h4>Copy the result to <code>cache/</code> folder</h4>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjpbIiMjIGNwIHNmcyB0byB0aGUgY2FjaGUvIGZvbGRlciIsImNwIG91dC5zZnMgLi4vLi4vLi4vY2FjaGUvIl19 -->
+<pre class="r"><code>## cp sfs to the cache/ folder
+cp out.sfs ../../../cache/</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
 <div id="calculate-the-thetas-for-each-site" class="section level3">
 <h3>3. Calculate the thetas for each site</h3>
 <p>The output from the above command are two files out.thetas.gz and out.thetas.idx. A formal description of these files can be found in the doc/formats.pdf in the angsd package. It is possible to extract the logscale persite thetas using the ./thetaStat print program.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjpbImFuZ3NkIC1iYW0gYmFtLmxpc3QgLW91dCBvdXQgLWRvVGhldGFzIDEgLWRvU2FmIDEgLXBlc3Qgb3V0LnNmcyAtYW5jIC4uL2xhbWJkYS5mYSAtR0wgMSIsInRoZXRhU3RhdCBwcmludCBvdXQudGhldGFzLmlkeCA+IHRoZXRhLnR4dCIsIiMjIGNwIHRoZXRhIHRvIHRoZSBjYWNoZS8gZm9sZGVyIiwiY3AgdGhldGEudHh0IC4uLy4uLy4uL2NhY2hlLyJdfQ== -->
-<pre class="r"><code>angsd -bam bam.list -out out -doThetas 1 -doSaf 1 -pest out.sfs -anc ../lambda.fa -GL 1
+<!-- rnb-source-begin eyJkYXRhIjpbImFuZ3NkIC1iYW0gYmFtLnR4dCAtb3V0IG91dCAtZG9UaGV0YXMgMSAtZG9TYWYgMSAtcGVzdCBvdXQuc2ZzIC1hbmMgLi4vWmVhX21heXMuQjczX1JlZkdlbl92NC5kbmEuY2hyb21vc29tZS5NdC5mYSAtR0wgMSIsInRoZXRhU3RhdCBwcmludCBvdXQudGhldGFzLmlkeCA+IHRoZXRhLnR4dCIsIiMjIGNwIHRoZXRhIHRvIHRoZSBjYWNoZS8gZm9sZGVyIiwiY3AgdGhldGEudHh0IC4uLy4uLy4uL2NhY2hlLyJdfQ== -->
+<pre class="r"><code>angsd -bam bam.txt -out out -doThetas 1 -doSaf 1 -pest out.sfs -anc ../Zea_mays.B73_RefGen_v4.dna.chromosome.Mt.fa -GL 1
 thetaStat print out.thetas.idx &gt; theta.txt
 ## cp theta to the cache/ folder
 cp theta.txt ../../../cache/</code></pre>
@@ -2120,9 +2128,49 @@ cp theta.txt ../../../cache/</code></pre>
 <hr />
 </div>
 </div>
+<div id="a-procedure-to-calculate-f_st" class="section level1">
+<h1>A procedure to calculate <span class="math inline">\(F_{ST}\)</span></h1>
+<div id="create-two-list-bam-files" class="section level4">
+<h4>Create two list bam files</h4>
+</div>
+<div id="two-population-fst" class="section level4">
+<h4>Two population Fst</h4>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjpbIiMgZmlyc3QgY2FsY3VsYXRlIHBlciBwb3Agc2FmIGZvciBlYWNoIHBvcHVsYXRvaW4iLCJhbmdzZCAtYiBwb3AxLnR4dCAtYW5jIC4uL1plYV9tYXlzLkI3M19SZWZHZW5fdjQuZG5hLmNocm9tb3NvbWUuTXQuZmEgLW91dCBwb3AxIC1kb3NhZiAxIC1nbCAxIiwiYW5nc2QgLWIgcG9wMi50eHQgLWFuYyAuLi9aZWFfbWF5cy5CNzNfUmVmR2VuX3Y0LmRuYS5jaHJvbW9zb21lLk10LmZhIC1vdXQgcG9wMiAtZG9zYWYgMSAtZ2wgMSIsIiMgY2FsY3VsYXRlIHRoZSAyZHNmcyBwcmlvciIsInJlYWxTRlMgcG9wMS5zYWYuaWR4IHBvcDIuc2FmLmlkeCA+IHBvcDEucG9wMi5tbCIsIiMgcHJlcGFyZSB0aGUgZnN0IGZvciBlYXN5IHdpbmRvdyBhbmFseXNpcyBldGMiLCJyZWFsU0ZTIGZzdCBpbmRleCBwb3AxLnNhZi5pZHggcG9wMi5zYWYuaWR4IC1zZnMgcG9wMS5wb3AyLm1sIC1mc3RvdXQgb3V0IiwiIyBnZXQgdGhlIGdsb2JhbCBlc3RpbWF0ZSIsInJlYWxTRlMgZnN0IHN0YXRzIG91dC5mc3QuaWR4ICIsIiMgYmVsb3cgaXMgbm90IHRlc3RlZCB0aGF0IG11Y2gsIGJ1dCBzZWVtcyB0byB3b3JrIiwicmVhbFNGUyBmc3Qgc3RhdHMyIG91dC5mc3QuaWR4IC13aW4gNTAwIC1zdGVwIDEwMCA+IGZzdF93aW4udHh0Il19 -->
+<pre class="r"><code># first calculate per pop saf for each populatoin
+angsd -b pop1.txt -anc ../Zea_mays.B73_RefGen_v4.dna.chromosome.Mt.fa -out pop1 -dosaf 1 -gl 1
+angsd -b pop2.txt -anc ../Zea_mays.B73_RefGen_v4.dna.chromosome.Mt.fa -out pop2 -dosaf 1 -gl 1
+# calculate the 2dsfs prior
+realSFS pop1.saf.idx pop2.saf.idx &gt; pop1.pop2.ml
+# prepare the fst for easy window analysis etc
+realSFS fst index pop1.saf.idx pop2.saf.idx -sfs pop1.pop2.ml -fstout out
+# get the global estimate
+realSFS fst stats out.fst.idx 
+# below is not tested that much, but seems to work
+realSFS fst stats2 out.fst.idx -win 500 -step 100 &gt; fst_win.txt</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="copy-the-result-to-cache-folder-1" class="section level4">
+<h4>Copy the result to <code>cache/</code> folder</h4>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjpbIiMjIGNwIHNmcyB0byB0aGUgY2FjaGUvIGZvbGRlciIsImNwIGZzdF93aW4udHh0IC4uLy4uLy4uL2NhY2hlLyJdfQ== -->
+<pre class="r"><code>## cp sfs to the cache/ folder
+cp fst_win.txt ../../../cache/</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<hr />
+</div>
+</div>
 <div id="visualize-the-results" class="section level1">
 <h1>Visualize the results</h1>
 <p>In local computer, using <code>R</code>:</p>
+<div id="barplot-for-sfs" class="section level4">
+<h4>Barplot for SFS</h4>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjpbInMgPC0gc2NhbignLi4vLi4vY2FjaGUvb3V0LnNmcycpIiwicyA8LSBzWy1jKDEsbGVuZ3RoKHMpKV0iLCJzIDwtIHMvc3VtKHMpIiwiYmFycGxvdChzLG5hbWVzPTE6bGVuZ3RoKHMpLCBtYWluPSdTRlMnKSJdfQ== -->
@@ -2133,26 +2181,321 @@ barplot(s,names=1:length(s), main='SFS')</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+</div>
+<div id="histgram-distribution-of-the-theta-values" class="section level4">
+<h4>Histgram distribution of the theta values</h4>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjpbInQgPC0gcmVhZC5jc3YoJy4uLy4uL2NhY2hlL3RoZXRhLnR4dCcsIHNlcD1cIlxcdFwiLCBoZWFkZXI9VFJVRSkiLCJkaW0odCkgIyIsImhlYWQodCkiXX0= -->
-<pre class="r"><code>t &lt;- read.csv('../../cache/theta.txt', sep=&quot;\t&quot;, header=TRUE)
-dim(t) #
-head(t)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiaGlzdCh0JFBhaXJ3aXNlKSJ9 -->
+<pre class="r"><code>hist(t$Pairwise)</code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="scatter-plot-of-the-fst-values" class="section level4">
+<h4>Scatter plot of the Fst values</h4>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjpbImZzdCA8LSByZWFkLnRhYmxlKFwiY2FjaGUvZnN0X3dpbi50eHRcIiwgc2tpcD0xLCBoZWFkZXI9RkFMU0UpIiwibmFtZXMoZnN0KVtjKDMsNSldIDwtIGMoXCJtaWRwXCIsIFwiZnN0XCIpIiwicGxvdChmc3QkbWlkcCwgZnN0JGZzdCwgeGxhYj1cIlBoeXNpY2FsIHBvc2l0aW9uXCIsIHlsYWI9XCJGc3RcIiwgY29sPVwiIzVmOWVhMFwiLCBwY2g9MTYpIl19 -->
+<pre class="r"><code>fst &lt;- read.table(&quot;cache/fst_win.txt&quot;, skip=1, header=FALSE)
+names(fst)[c(3,5)] &lt;- c(&quot;midp&quot;, &quot;fst&quot;)
+plot(fst$midp, fst$fst, xlab=&quot;Physical position&quot;, ylab=&quot;Fst&quot;, col=&quot;#5f9ea0&quot;, pch=16)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<hr />
+</div>
+</div>
+<div id="general-feature-format-gff-from-ensemblplants" class="section level1">
+<h1>General feature format (GFF) from EnsemblPlants</h1>
+<p>Maize <a href="https://plants.ensembl.org/Zea_mays/Info/Index">reference genome</a></p>
+<p>change to <code>largedata\lab4</code> folder:</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjpbIndnZXQgZnRwOi8vZnRwLmVuc2VtYmxnZW5vbWVzLm9yZy9wdWIvcGxhbnRzL3JlbGVhc2UtNDYvZmFzdGEvemVhX21heXMvZG5hL1plYV9tYXlzLkI3M19SZWZHZW5fdjQuZG5hLmNocm9tb3NvbWUuTXQuZmEuZ3oiLCIiLCIjIyMgdGhlbiB1bnppcCBpdCIsImd1bnppcCBaZWFfbWF5cy5CNzNfUmVmR2VuX3Y0LmRuYS5jaHJvbW9zb21lLk10LmZhLmd6Il19 -->
+<pre class="r"><code>wget ftp://ftp.ensemblgenomes.org/pub/plants/release-46/fasta/zea_mays/dna/Zea_mays.B73_RefGen_v4.dna.chromosome.Mt.fa.gz
+
+### then unzip it
+gunzip Zea_mays.B73_RefGen_v4.dna.chromosome.Mt.fa.gz</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Similarly, we will download and unzip the <a href="ftp://ftp.ensemblgenomes.org/pub/plants/release-46/gff3/zea_mays/Zea_mays.B73_RefGen_v4.46.chromosome.Mt.gff3.gz">Mt GFF3</a> file</p>
+<p>–</p>
+<div id="use-r-to-process-the-gff3-file" class="section level4">
+<h4>Use R to process the GFF3 file</h4>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjpbIiMgaW5zdGFsbC5wYWNrYWdlKFwiZGF0YS50YWJsZVwiKSIsImxpYnJhcnkoXCJkYXRhLnRhYmxlXCIpIiwiIiwiIyMgc2ltcGx5IHJlYWQgaW4gd291bGRuJ3Qgd29yayIsImdmZiA8LSBmcmVhZChcImxhcmdlZGF0YS9sYWI0L1plYV9tYXlzLkI3M19SZWZHZW5fdjQuNDYuY2hyb21vc29tZS5NdC5nZmYzXCIsIHNraXA9XCIjXCIsIGhlYWRlcj1GQUxTRSwgZGF0YS50YWJsZT1GQUxTRSkiLCIiLCIjIyBncmVwIC12IG1lYW5zIHNlbGVjdCBsaW5lcyB0aGF0IG5vdCBtYXRjaGluZyBhbnkgb2YgdGhlIHNwZWNpZmllZCBwYXR0ZXJucyIsImdmZiA8LSBmcmVhZChjbWQ9J2dyZXAgLXYgXCIjXCIgbGFyZ2VkYXRhL2xhYjQvWmVhX21heXMuQjczX1JlZkdlbl92NC40Ni5jaHJvbW9zb21lLk10LmdmZjMnLCBoZWFkZXI9RkFMU0UsIGRhdGEudGFibGU9RkFMU0UpIl19 -->
+<pre class="r"><code># install.package(&quot;data.table&quot;)
+library(&quot;data.table&quot;)
+
+## simply read in wouldn't work
+gff &lt;- fread(&quot;largedata/lab4/Zea_mays.B73_RefGen_v4.46.chromosome.Mt.gff3&quot;, skip=&quot;#&quot;, header=FALSE, data.table=FALSE)
+
+## grep -v means select lines that not matching any of the specified patterns
+gff &lt;- fread(cmd='grep -v &quot;#&quot; largedata/lab4/Zea_mays.B73_RefGen_v4.46.chromosome.Mt.gff3', header=FALSE, data.table=FALSE)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<hr />
+</div>
+</div>
+<div id="general-feature-format-gff-version-3" class="section level1">
+<h1>General feature format (GFF) version 3</h1>
+<pre><code>  V1      V2         V3   V4     V5 V6 V7 V8
+1 Mt Gramene chromosome    1 569630  .  .  .
+2 Mt ensembl       gene 6391   6738  .  +  .
+3 Mt    NCBI       mRNA 6391   6738  .  +  .
+4 Mt    NCBI       exon 6391   6738  .  +  .
+5 Mt    NCBI        CDS 6391   6738  .  +  0
+6 Mt ensembl       gene 6951   8285  .  +  .
+                  V9
+1   ID=chromosome:Mt;Alias=AY506529.1,NC_007982.1;Is_circular=true
+2   ID=gene:ZeamMp002;biotype=protein_coding;description=orf115-a1;
+3   ID=transcript:ZeamMp002;Parent=gene:ZeamMp002;
+4   Parent=transcript:ZeamMp002;Name=ZeamMp002.exon1;constitutive=1;ensembl_end_phase=0;
+5   ID=CDS:ZeamMp002;Parent=transcript:ZeamMp002;
+6   ID=gene:ZeamMp003;biotype=protein_coding;description=orf444</code></pre>
+<hr />
+</div>
+<div id="general-feature-format-gff-version-3-1" class="section level1">
+<h1>General feature format (GFF) version 3</h1>
+<pre><code>  V1      V2         V3   V4     V5 V6 V7 V8
+1 Mt Gramene chromosome    1 569630  .  .  .
+2 Mt ensembl       gene 6391   6738  .  +  .
+                  V9
+1   ID=chromosome:Mt;Alias=AY506529.1,NC_007982.1;Is_circular=true
+2   ID=gene:ZeamMp002;biotype=protein_coding;description=orf115-a1;</code></pre>
+<hr />
+<ul>
+<li><p>1 <strong>sequence</strong>: The name of the sequence where the feature is located.</p></li>
+<li><p>2 <strong>source</strong>: Keyword identifying the source of the feature, like a program (e.g. RepeatMasker) or an organization (like ensembl).</p></li>
+<li>3 <strong>feature</strong>: The feature type name, like “gene” or “exon”.
+<ul>
+<li>In a well structured GFF file, all the children features always follow their parents in a single block (so all exons of a transcript are put after their parent “transcript” feature line and before any other parent transcript line).</li>
+</ul></li>
+<li>4 <strong>start</strong>: Genomic start of the feature, with a 1-base offset.
+<ul>
+<li>This is in contrast with other 0-offset half-open sequence formats, like <a href>BED</a>.</li>
+</ul></li>
+</ul>
+</div>
+<div id="general-feature-format-gff-version-3-2" class="section level1">
+<h1>General feature format (GFF) version 3</h1>
+<pre><code>  V1      V2         V3   V4     V5 V6 V7 V8
+1 Mt Gramene chromosome    1 569630  .  .  .
+2 Mt ensembl       gene 6391   6738  .  +  .
+                  V9
+1   ID=chromosome:Mt;Alias=AY506529.1,NC_007982.1;Is_circular=true
+2   ID=gene:ZeamMp002;biotype=protein_coding;description=orf115-a1;</code></pre>
+<hr />
+<ul>
+<li>8 <strong>phase</strong>: phase of CDS (<strong>means CoDing Sequence</strong>) features.
+<ul>
+<li>The phase indicates where the feature begins with reference to the reading frame.</li>
+<li>The phase is one of the integers 0, 1, or 2, indicating the number of bases that should be removed from the beginning of this feature to reach the first base of the next codon.</li>
+</ul></li>
+<li>9 <strong>attributes</strong>: All the other information pertaining to this feature.
+<ul>
+<li>The format, structure and content of this field is the one which varies the most between the three competing file formats.</li>
+</ul></li>
+</ul>
+<hr />
+</div>
+<div id="work-with-gff" class="section level1">
+<h1>Work with GFF</h1>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjpbIm5hbWVzKGdmZikgPC0gYyhcInNlcVwiLCBcInNvdXJjZVwiLCBcImZlYXR1cmVcIiwgXCJzdGFydFwiLCBcImVuZFwiLCBcInNjb3JlXCIsIFwic3RyYW5kXCIsIFwicGhhc2VcIiwgXCJhdHRcIikiLCJ0YWJsZShnZmYkZmVhdHVyZSkiXX0= -->
+<pre class="r"><code>names(gff) &lt;- c(&quot;seq&quot;, &quot;source&quot;, &quot;feature&quot;, &quot;start&quot;, &quot;end&quot;, &quot;score&quot;, &quot;strand&quot;, &quot;phase&quot;, &quot;att&quot;)
+table(gff$feature)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<div id="get-genes-and-upstream-and-downstream-5kb-regions" class="section level3">
+<h3>Get genes and upstream and downstream 5kb regions</h3>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjpbImcgPC0gc3Vic2V0KGdmZiwgZmVhdHVyZSAlaW4lIFwiZ2VuZVwiKSIsImckZ2VuZWlkIDwtIGdzdWIoXCIuKmdlbmU6fDtiaW90eXBlLipcIiwgXCJcIiwgZyRhdHQpIiwiIiwiIyMjICsgc3RyYW5kIiwiZ3AgPC0gc3Vic2V0KGcsIHN0cmFuZCAlaW4lIFwiK1wiKSAiLCIjIG5yb3coZ3ApIDc1IiwiIiwiIyMjIGdldCB0aGUgNWsgdXBzdHJlYW0gb2YgdGhlICsgc3RyYW5kIGdlbmUgbW9kZWwiLCJncF91cCA8LSBncCIsImdwX3VwJGVuZCA8LSBncF91cCRzdGFydCAtIDEiLCJncF91cCRzdGFydCA8LSBncF91cCRlbmQgLSA1MDAwICIsIiIsIiMjIyBnZXQgdGhlIDVrIGRvd25zdHJlYW0gb2YgdGhlICsgc3RyYW5kIGdlbmUgbW9kZWwiLCJncF9kb3duIDwtIGdwIiwiZ3BfZG93biRzdGFydCA8LSBncF9kb3duJGVuZCArIDEiLCJncF9kb3duJGVuZCA8LSBncF9kb3duJHN0YXJ0ICsgNTAwMCAiXX0= -->
+<pre class="r"><code>g &lt;- subset(gff, feature %in% &quot;gene&quot;)
+g$geneid &lt;- gsub(&quot;.*gene:|;biotype.*&quot;, &quot;&quot;, g$att)
+
+### + strand
+gp &lt;- subset(g, strand %in% &quot;+&quot;) 
+# nrow(gp) 75
+
+### get the 5k upstream of the + strand gene model
+gp_up &lt;- gp
+gp_up$end &lt;- gp_up$start - 1
+gp_up$start &lt;- gp_up$end - 5000 
+
+### get the 5k downstream of the + strand gene model
+gp_down &lt;- gp
+gp_down$start &lt;- gp_down$end + 1
+gp_down$end &lt;- gp_down$start + 5000 </code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<hr />
+</div>
+<div id="get-genes-and-upstream-and-downstream-5kb-regions-1" class="section level3">
+<h3>Get genes and upstream and downstream 5kb regions</h3>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiaGlzdCh0JFBhaXJ3aXNlLCB4bGFiPVwidGhldGFcIiwgbWFpbj1cIkhpc3RvZ3JhbSBvZiB0aGV0YVwiKSJ9 -->
-<pre class="r"><code>hist(t$Pairwise, xlab=&quot;theta&quot;, main=&quot;Histogram of theta&quot;)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjpbIiMjIyAtIHN0cmFuZCIsImdtIDwtIHN1YnNldChnLCBzdHJhbmQgJWluJSBcIi1cIikgIiwiZGltKGdtKSAjIDgyIiwiIiwiZndyaXRlKGcsIFwiY2FjaGUvbXRfZ2VuZS50eHRcIiwgc2VwPVwiXFx0XCIsIHJvdy5uYW1lcyA9IEZBTFNFLCBxdW90ZT1GQUxTRSkiXX0= -->
+<pre class="r"><code>### - strand
+gm &lt;- subset(g, strand %in% &quot;-&quot;) 
+dim(gm) # 82
+
+fwrite(g, &quot;cache/mt_gene.txt&quot;, sep=&quot;\t&quot;, row.names = FALSE, quote=FALSE)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+<hr />
+</div>
+<div id="intepret-the-theta-results" class="section level2">
+<h2>Intepret the theta results</h2>
 <!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjpbImxpYnJhcnkoXCJkYXRhLnRhYmxlXCIpIiwibGlicmFyeShcIkdlbm9taWNSYW5nZXNcIikiLCJsaWJyYXJ5KFwicGx5clwiKSIsIiIsIiIsInRoZXRhIDwtIGZyZWFkKFwiY2FjaGUvdGhldGEudHh0XCIsIGRhdGEudGFibGU9RkFMU0UpIiwibmFtZXModGhldGEpWzFdIDwtIFwic2VxXCIiLCIiLCJ1cDVrIDwtIHJlYWQudGFibGUoXCJjYWNoZS9tdF9nZW5lX3VwNWsudHh0XCIsIGhlYWRlcj1UUlVFKSIsIiIsIiMjIyBkZWZpbmUgdGhlIHN1YmplY3QgZmlsZSBmb3IgdGhldGEgdmFsdWVzIiwiZ3JjIDwtIHdpdGgodGhldGEsIEdSYW5nZXMoc2VxbmFtZXM9c2VxLCBJUmFuZ2VzKHN0YXJ0PVBvcywgZW5kPVBvcykpKSIsIiIsIiMjIyBkZWZpbmUgdGhlIHF1ZXJ5IGZpbGUgZm9yIGdlbm9taWMgZmVhdHVyZSIsImdyZiA8LSB3aXRoKHVwNWssIEdSYW5nZXMoc2VxbmFtZXM9c2VxLCBJUmFuZ2VzKHN0YXJ0PXN0YXJ0LCBlbmQ9ZW5kKSwgZ2VuZWlkPWdlbmVpZCkpIiwiICAgICIsIiMjIyBmaW5kIG92ZXJsYXBzIGJldHdlZW4gdGhlIHR3byIsInRiIDwtIGZpbmRPdmVybGFwcyhxdWVyeT1ncmYsIHN1YmplY3Q9Z3JjKSIsInRiIDwtIGFzLm1hdHJpeCh0YikiLCIgICAgIiwib3V0MSA8LSBhcy5kYXRhLmZyYW1lKGdyZlt0YlssMV1dKSIsIm91dDIgPC0gYXMuZGF0YS5mcmFtZShncmNbdGJbLDJdXSkiLCIjIyMgZm9yIGVhY2ggZ2Vub21pYyBmZWF0dXJlLCBmaW5kIHRoZSBzaXRlcyB3aXRoIG5vbi1taXNzaW5nIGRhdGEiLCJvdXQgPC0gY2JpbmQob3V0MSwgb3V0MlssIFwic3RhcnRcIl0pICIsIm5hbWVzKG91dClbbmNvbChvdXQpXSA8LSBcInBvc1wiIl19 -->
+<pre class="r"><code>library(&quot;data.table&quot;)
+library(&quot;GenomicRanges&quot;)
+library(&quot;plyr&quot;)
+
+
+theta &lt;- fread(&quot;cache/theta.txt&quot;, data.table=FALSE)
+names(theta)[1] &lt;- &quot;seq&quot;
+
+up5k &lt;- read.table(&quot;cache/mt_gene_up5k.txt&quot;, header=TRUE)
+
+### define the subject file for theta values
+grc &lt;- with(theta, GRanges(seqnames=seq, IRanges(start=Pos, end=Pos)))
+
+### define the query file for genomic feature
+grf &lt;- with(up5k, GRanges(seqnames=seq, IRanges(start=start, end=end), geneid=geneid))
+    
+### find overlaps between the two
+tb &lt;- findOverlaps(query=grf, subject=grc)
+tb &lt;- as.matrix(tb)
+    
+out1 &lt;- as.data.frame(grf[tb[,1]])
+out2 &lt;- as.data.frame(grc[tb[,2]])
+### for each genomic feature, find the sites with non-missing data
+out &lt;- cbind(out1, out2[, &quot;start&quot;]) 
+names(out)[ncol(out)] &lt;- &quot;pos&quot;</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<hr />
+</div>
+<div id="intepret-the-theta-results-1" class="section level2">
+<h2>Intepret the theta results</h2>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjpbIiNkZWZpbmUgdW5pcXVlIGlkZW50aWZpZXIgYW5kIG1lcmdlIHdpdGggdGhlIHRoZXRhcyIsIm91dCR1aWQgPC0gcGFzdGUob3V0JHNlcW5hbWVzLCBvdXQkcG9zLCBzZXA9XCJfXCIpIiwidGhldGEkdWlkIDwtIHBhc3RlKHRoZXRhJHNlcSwgdGhldGEkUG9zLCBzZXA9XCJfXCIpIiwiIiwiZGYgPC0gbWVyZ2Uob3V0LCB0aGV0YVssIGMoLTEsIC0yKV0sIGJ5PVwidWlkXCIpIiwiIyBmb3IgZWFjaCB1cHN0cmVhbSA1ayByZWdpb24sIGhvdyBtYW55IHRoZXRhIHZhbHVlcyIsIiIsIm14IDwtIGRkcGx5KGRmLCAuKGdlbmVpZCksIHN1bW1hcmlzZSwiLCIgICAgICAgICAgICBQYWlyd2lzZSA9IG1lYW4oUGFpcndpc2UsIG5hLnJtPVRSVUUpLCIsIiAgICAgICAgICAgIHRoZXRhSCA9IG1lYW4odGhldGFILCBuYS5ybT1UUlVFKSwiLCIgICAgICAgICAgICBuc2l0ZXMgPSBsZW5ndGgodWlkKSkiXX0= -->
+<pre class="r"><code>#define unique identifier and merge with the thetas
+out$uid &lt;- paste(out$seqnames, out$pos, sep=&quot;_&quot;)
+theta$uid &lt;- paste(theta$seq, theta$Pos, sep=&quot;_&quot;)
+
+df &lt;- merge(out, theta[, c(-1, -2)], by=&quot;uid&quot;)
+# for each upstream 5k region, how many theta values
+
+mx &lt;- ddply(df, .(geneid), summarise,
+            Pairwise = mean(Pairwise, na.rm=TRUE),
+            thetaH = mean(thetaH, na.rm=TRUE),
+            nsites = length(uid))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<hr />
+</div>
+<div id="intepret-the-theta-results-2" class="section level2">
+<h2>Intepret the theta results</h2>
+<p>Copy and paste everything above, and pack it into an <code>R</code> function:</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjpbImdldF9tZWFuX3RoZXRhIDwtIGZ1bmN0aW9uKGdmX2ZpbGU9XCJjYWNoZS9tdF9nZW5lX3VwNWsudHh0XCIpeyIsIiAgIyBnZl9maWxlOiBnZW5lIGZlYXR1cmUgZmlsZSBbY2hyLCA9XCJjYWNoZS9tdF9nZW5lX3VwNWsudHh0XCJdIiwiICAiLCIgIHRoZXRhIDwtIGZyZWFkKFwiY2FjaGUvdGhldGEudHh0XCIsIGRhdGEudGFibGU9RkFMU0UpIiwiICBuYW1lcyh0aGV0YSlbMV0gPC0gXCJzZXFcIiIsIiIsIiAgdXA1ayA8LSByZWFkLnRhYmxlKGdmX2ZpbGUsIGhlYWRlcj1UUlVFKSIsIiIsIiAgIyMjIGRlZmluZSB0aGUgc3ViamVjdCBmaWxlIGZvciB0aGV0YSB2YWx1ZXMiLCIgIGdyYyA8LSB3aXRoKHRoZXRhLCBHUmFuZ2VzKHNlcW5hbWVzPXNlcSwgSVJhbmdlcyhzdGFydD1Qb3MsIGVuZD1Qb3MpKSkiLCIiLCIgICMjIyBkZWZpbmUgdGhlIHF1ZXJ5IGZpbGUgZm9yIGdlbm9taWMgZmVhdHVyZSIsIiAgZ3JmIDwtIHdpdGgodXA1aywgR1JhbmdlcyhzZXFuYW1lcz1zZXEsIElSYW5nZXMoc3RhcnQ9c3RhcnQsIGVuZD1lbmQpLCBnZW5laWQ9Z2VuZWlkKSkiLCIgICAgIiwiICAjIyMgZmluZCBvdmVybGFwcyBiZXR3ZWVuIHRoZSB0d28iLCIgIHRiIDwtIGZpbmRPdmVybGFwcyhxdWVyeT1ncmYsIHN1YmplY3Q9Z3JjKSIsIiAgdGIgPC0gYXMubWF0cml4KHRiKSIsIiAgICAiLCIgIG91dDEgPC0gYXMuZGF0YS5mcmFtZShncmZbdGJbLDFdXSkiLCIgIG91dDIgPC0gYXMuZGF0YS5mcmFtZShncmNbdGJbLDJdXSkiLCIgICMjIyBmb3IgZWFjaCBnZW5vbWljIGZlYXR1cmUsIGZpbmQgdGhlIHNpdGVzIHdpdGggbm9uLW1pc3NpbmcgZGF0YSIsIiAgb3V0IDwtIGNiaW5kKG91dDEsIG91dDJbLCBcInN0YXJ0XCJdKSAiLCIgIG5hbWVzKG91dClbbmNvbChvdXQpXSA8LSBcInBvc1wiIiwiIiwiICAjZGVmaW5lIHVuaXF1ZSBpZGVudGlmaWVyIGFuZCBtZXJnZSB3aXRoIHRoZSB0aGV0YXMiLCIgIG91dCR1aWQgPC0gcGFzdGUob3V0JHNlcW5hbWVzLCBvdXQkcG9zLCBzZXA9XCJfXCIpIiwiICB0aGV0YSR1aWQgPC0gcGFzdGUodGhldGEkc2VxLCB0aGV0YSRQb3MsIHNlcD1cIl9cIikiLCIiLCIgIGRmIDwtIG1lcmdlKG91dCwgdGhldGFbLCBjKC0xLCAtMildLCBieT1cInVpZFwiKSIsIiAgIyBmb3IgZWFjaCB1cHN0cmVhbSA1ayByZWdpb24sIGhvdyBtYW55IHRoZXRhIHZhbHVlcyIsIiIsIiAgbXggPC0gZGRwbHkoZGYsIC4oZ2VuZWlkKSwgc3VtbWFyaXNlLCIsIiAgICAgICAgICAgIFBhaXJ3aXNlID0gbWVhbihQYWlyd2lzZSwgbmEucm09VFJVRSksIiwiICAgICAgICAgICAgdGhldGFIID0gbWVhbih0aGV0YUgsIG5hLnJtPVRSVUUpLCIsIiAgICAgICAgICAgIG5zaXRlcyA9IGxlbmd0aCh1aWQpKSIsIiAgcmV0dXJuKG14KSIsIn0iXX0= -->
+<pre class="r"><code>get_mean_theta &lt;- function(gf_file=&quot;cache/mt_gene_up5k.txt&quot;){
+  # gf_file: gene feature file [chr, =&quot;cache/mt_gene_up5k.txt&quot;]
+  
+  theta &lt;- fread(&quot;cache/theta.txt&quot;, data.table=FALSE)
+  names(theta)[1] &lt;- &quot;seq&quot;
+
+  up5k &lt;- read.table(gf_file, header=TRUE)
+
+  ### define the subject file for theta values
+  grc &lt;- with(theta, GRanges(seqnames=seq, IRanges(start=Pos, end=Pos)))
+
+  ### define the query file for genomic feature
+  grf &lt;- with(up5k, GRanges(seqnames=seq, IRanges(start=start, end=end), geneid=geneid))
+    
+  ### find overlaps between the two
+  tb &lt;- findOverlaps(query=grf, subject=grc)
+  tb &lt;- as.matrix(tb)
+    
+  out1 &lt;- as.data.frame(grf[tb[,1]])
+  out2 &lt;- as.data.frame(grc[tb[,2]])
+  ### for each genomic feature, find the sites with non-missing data
+  out &lt;- cbind(out1, out2[, &quot;start&quot;]) 
+  names(out)[ncol(out)] &lt;- &quot;pos&quot;
+
+  #define unique identifier and merge with the thetas
+  out$uid &lt;- paste(out$seqnames, out$pos, sep=&quot;_&quot;)
+  theta$uid &lt;- paste(theta$seq, theta$Pos, sep=&quot;_&quot;)
+
+  df &lt;- merge(out, theta[, c(-1, -2)], by=&quot;uid&quot;)
+  # for each upstream 5k region, how many theta values
+
+  mx &lt;- ddply(df, .(geneid), summarise,
+            Pairwise = mean(Pairwise, na.rm=TRUE),
+            thetaH = mean(thetaH, na.rm=TRUE),
+            nsites = length(uid))
+  return(mx)
+}</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<hr />
+</div>
+<div id="plot-the-results" class="section level2">
+<h2>Plot the results</h2>
+<p>Run the customized R function</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjpbIiMjIyBhcHBseSB0aGUgZnVuY3Rpb24iLCJ1cDVrIDwtIGdldF9tZWFuX3RoZXRhKGdmX2ZpbGU9XCJjYWNoZS9tdF9nZW5lX3VwNWsudHh0XCIpIiwiZG93bjVrIDwtIGdldF9tZWFuX3RoZXRhKGdmX2ZpbGU9XCJjYWNoZS9tdF9nZW5lX2Rvd241ay50eHRcIikiXX0= -->
+<pre class="r"><code>### apply the function
+up5k &lt;- get_mean_theta(gf_file=&quot;cache/mt_gene_up5k.txt&quot;)
+down5k &lt;- get_mean_theta(gf_file=&quot;cache/mt_gene_down5k.txt&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>And then plot the results:</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjpbImxpYnJhcnkoXCJnZ3Bsb3QyXCIpIiwiIiwidXA1ayRmZWF0dXJlIDwtIFwidXAgNWtcIiIsImRvd241ayRmZWF0dXJlIDwtIFwiZG93biA1a1wiIiwicmVzIDwtIHJiaW5kKHVwNWssIGRvd241aykiLCIiLCJnZ3Bsb3QocmVzLCBhZXMoeD1mZWF0dXJlLCB5PVBhaXJ3aXNlLCBmaWxsPWZlYXR1cmUpKSArICIsIiAgZ2VvbV92aW9saW4odHJpbT1GQUxTRSkrIiwiICBsYWJzKHRpdGxlPVwiVGhldGEgdmFsdWVcIiwgeD1cIlwiLCB5ID0gXCJMb2cxMCAodGhldGEpXCIpKyIsIiAgZ2VvbV9ib3hwbG90KHdpZHRoPTAuMSwgZmlsbD1cIndoaXRlXCIpKyIsIiAgc2NhbGVfZmlsbF9icmV3ZXIocGFsZXR0ZT1cIkJsdWVzXCIpICsgIiwiICB0aGVtZV9jbGFzc2ljKCkiXX0= -->
+<pre class="r"><code>library(&quot;ggplot2&quot;)
+
+up5k$feature &lt;- &quot;up 5k&quot;
+down5k$feature &lt;- &quot;down 5k&quot;
+res &lt;- rbind(up5k, down5k)
+
+ggplot(res, aes(x=feature, y=Pairwise, fill=feature)) + 
+  geom_violin(trim=FALSE)+
+  labs(title=&quot;Theta value&quot;, x=&quot;&quot;, y = &quot;Log10 (theta)&quot;)+
+  geom_boxplot(width=0.1, fill=&quot;white&quot;)+
+  scale_fill_brewer(palette=&quot;Blues&quot;) + 
+  theme_classic()</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+</div>
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiTkdTIHNpbXVsYXRpb24gYW5kIGRpdmVyc2l0eSBjYWxjdWxhdGlvbiIKYXV0aG9yOiAiSmlubGlhbmcgWWFuZyIKZGF0ZTogIjAxLTI5LTIwMjAiCm91dHB1dDogaHRtbF9ub3RlYm9vawotLS0KCgojIFN5bmNpbmcgeW91ciBmb3JrIHRvIHRoZSBvcmlnaW5hbCByZXBvIAoKMS4gT3BlbiB5b3VyIF9fZm9ya19fIG9mIHRoZSByZXBvc2l0b3J5IG9uIEdpdGh1YgoyLiBDbGljayB0aGUgX19Db21wYXJlX18gYnV0dG9uIHJpZ2h0IG5leHQgdG8gdGhlIF9fUHVsbCByZXF1ZXN0X18KMy4gQ2hhbmdlIHRoZSBfX2Jhc2UgcmVwb19fIHRvIHlvdXIgcmVwb3NpdG9yeQogIC0gWW91J3JlIG5vdyBiYWNrIHRvIHlvdXIgZm9yayBidXQgeW91J3ZlIGFsc28gYXNrZWQgdG8gY29tcGFyZSB0d28gaWRlbnRpY2FsIHJlcG9zaXRvcmllcyBzbyBHaXRIdWIgdGhpbmtzIHlvdSBjYXJlIGFib3V0IGJyYW5jaGVzIG5vdCBmb3Jrcy4gCiAgLSBDbGljayBvbiBfX2NvbXBhcmUgYWNyb3NzIGZvcmtzX18gdG8gZ2V0IGJhY2sgeW91ciBiYXNlIGZvcmsgb3B0aW9uLgo0LiBDaGFuZ2UgdGhlIF9faGVhZCByZXBvX18gdG8gdGhlIHVwc3RyZWFtIChvcmlnaW5hbCkgcmVwb3NpdG9yeSBfX2p5YW5nbGFiL2Fncm85MzItbGFiX18KNS4gWW91IHdpbGwgc2VlIGEgbGlzdCBvZiBjb21taXRzCiAgLSBUaGVzZSBhcmUgdGhlIGNvbW1pdHMgbWFkZSBieSBgeWFuZ2psYAo2LiBDbGljayBfX0NyZWF0ZSBwdWxsIHJlcXVlc3RfXwogIC0gTm90ZSB0aGF0IHRoaXMgcHVsbCByZXF1ZXN0IGlzIHRvIHlvdSEKICAKCi0tLQoKIyBVbml4IENvbW1hbmRzCgotIGBjZGA6IGNoYW5nZSB0aGUgd29ya2luZyBkaXJlY3RvcnkKLSBgbWtkaXJgOiBtYWtlIGRpcmVjdG9yaWVzCi0gYHB3ZGA6IHByaW50IG5hbWUgb2YgY3VycmVudCB3b3JraW5nIGRpcmVjdG9yeQotIGBsc2A6IGxpc3QgZGlyZWN0b3J5IGNvbnRlbnRzCi0gYGNobW9kYDogY2hhbmdlIHRoZSBhY2Nlc3MgcGVybWlzc2lvbnMgdG8gZmlsZXMgYW5kIGRpcmVjdG9yaWVzCi0gYGhlYWRgOiBvdXRwdXQgdGhlIGZpcnN0IHBhcnQgb2YgZmlsZXMKLSBgdGFpbGA6IG91dHB1dCB0aGUgbGFzdCBwYXJ0IG9mIGZpbGVzCi0gYG1vcmVgIGFuZCBgbGVzc2A6IGRpc3BsYXkgY29udGVudHMgb2YgbGFyZ2UgZmlsZXMgcGFnZSBieSBwYWdlIG9yIHNjcm9sbCBsaW5lIGJ5IGxpbmUgdXAgYW5kIGRvd24KLSBgd2NgOiBwcmludCBsaW5lLCB3b3JkLCBhbmQgYnl0ZSBjb3VudHMgZm9yIGVhY2ggZWFjaCBmaWxlCi0gYGdyZXBgOiBwcmludCBsaW5lcyBtYXRjaGluZyBhIHBhdHRlcm4KLSBgfGA6IHBpcGUsIGkuZS4sIGBscyAtbGEgfCBoZWFkIC1uIDEwMCA+PiBuZXdfZmlsZWAKCi0tLQoKIyBVbml4IENvbW1hbmRzOiBob3cgdG8gZ2V0IGhlbHAKCklmIHlvdSBkb27igJl0IGtub3cgaG93IHRvIHVzZSBhIGNvbW1hbmQgaS5lLiB5b3UgZG9u4oCZdCBrbm93IGFib3V0IGl0cyBwYXJhbWV0ZXJzIGFuZCByZXR1cm4gdHlwZSBldGMsIHRoZW4geW91IGNhbiBtYWtlIHVzZSBvZiBg4oCTLWhlbHBgIGNvbW1hbmQuCgpgYGB7YmFzaCwgZXZhbD1GQUxTRX0KbGVzcyAtLWhlbHAKYGBgCgotLQoKIyMjIEhvdyB0byB1c2UgaGVscCBjb21tYW5kCgpTaW1wbHkgdHlwZSBgaGVscGAsIHdoaWNoIGlzIHVzZWQgZm9yIGxpc3RpbmcgYWxsIHBvc3NpYmxlIGNvbW1hbmRzIHRoYXQgYXJlIHByZS1pbnN0YWxsZWQuCgpgYGB7YmFzaCwgZXZhbD1GQUxTRX0KaGVscApoZWxwIGNkCmBgYAoKLS0tCgojIFVuaXggQ29tbWFuZHM6IGhvdyB0byBnZXQgaGVscAoKIyMjIFRoZSBgbWFuYCBjb21tYW5kIG9yIG1hbiBwYWdlcwoKTWFuIGlzIHVzZWQgd2hlbiB5b3Ugd2FudCB0byBnZXQgYSBkZXRhaWxlZCBtYW51YWwgb2YgYSBjb21tYW5kLgoKYGBge2Jhc2gsIGV2YWw9RkFMU0V9Cm1hbiBta2RpcgptYW4gYmFzaApgYGAKCi0tLQoKIyBTbHVybSBDb21tYW5kcwoKIyMgR2V0dGluZyB0byBrbm93IHNsdXJtCgpbU2x1cm1dKGh0dHBzOi8vc2x1cm0uc2NoZWRtZC5jb20vb3ZlcnZpZXcuaHRtbCkgaXMgam9iIG1hbmFnaW5nIHN5c3RlbTogeW91IHN1Ym1pdCBqb2JzIHZpYSBiYXRjaCBzY3JpcHRzLiBUaGVzZSBiYXRjaCBzY3JpcHRzIGhhdmUgY29tbW9uIGhlYWRlcnM7IHdlIHdpbGwgc2VlIG9uZSBiZWxvdy4KCmBgYHtiYXNoLCBldmFsPUZBTFNFfQpzaW5mbyAjIHZpZXcgaW5mb3JtYXRpb24gYWJvdXQgU2x1cm0gbm9kZXMgYW5kIHBhcnRpdGlvbnMuCnNpbmZvIC0taGVscApzaW5mbyB8IGhlYWQgLW4gMTAKYGBgCgotIEhlcmUgd2Ugc2VlIG91ciBgUEFSVElUSU9OYCBhbmQgYFRJTUUgTElNSVRgLCBhbmQgYWxsIG9mIHRoZWlyIGluZmVyaW9yIGJ1dCBzdGlsbCB1c2VmdWwgZnJpZW5kcy4KCi0gTm90ZSB0aGF0IHRoZXJlIGlzIGEgY29sdW1uIG9mIGBTVEFURWAsIHdoaWNoIGluZGljYXRlcyB0aGUgc3RhdGUgb2YgdGhlIG1hY2hpbmUuIAoKLS0tCgojIFNsdXJtIENvbW1hbmRzCgojIyBHZXR0aW5nIHRvIGtub3cgc2x1cm0KCkEgYmV0dGVyIHdheSBvZiBsb29raW5nIGF0IHdoYXTigJlzIGdvaW5nIG9uIG9uIGVhY2ggbWFjaGluZSBpcyB3aXRoIGBzcXVldWVgLCB3aGljaCBpcyB0aGUgam9iIHF1ZXVlLgoKYGBge2Jhc2gsIGV2YWw9RkFMU0V9CnNxdWV1ZSAtLWhlbHAKIyB2aWV3IGluZm9ybWF0aW9uIGFib3V0IGpvYnMgbG9jYXRlZCBpbiB0aGUgU2x1cm0gc2NoZWR1bGluZyBxdWV1ZS4Kc3F1ZXVlIApzcXVldWUgfCB3YyAtbCAjIGhvdyBtYW55IGpvYnMgYXJlIHJ1bm5pbmcKc3F1ZXVlIHwgZ3JlcCAianlhbmdsYWIiCmBgYAoKLSBUaGlzIHNob3dzIGVhY2ggX19qb2IgSURfXyAodmVyeSBpbXBvcnRhbnQpLCBwYXJ0aXRpb24gdGhlIGpvYiBpcyBydW5uaW5nIG9uLCBuYW1lIG9mIHBlcnNvbiBydW5uaW5nIHRoZSBqb2IuIAotIEFsc28gbm90ZSBgVElNRWAgd2hpY2ggaXMgaG93IGxvbmcgYSBqb2IgaGFzIGJlZW4gcnVubmluZy4KCi0tCgpXZSBjYW4gdXNlIGBzcXVldWVgIHRvIGZpbmQgdGhlIGpvYiBJRCwgYWxsb3dpbmcgdXMgdG8gY2FuY2VsIGEgam9iIHdpdGggYHNjYW5jZWxgLiBMZXTigJlzIGtpbGwganlhbmcyMeKAmXMgam9iOgoKYGBge2Jhc2gsIGV2YWw9RkFMU0V9CnNjYW5jZWwgSk9CSUQKYGBgCgotLS0KCiMgV2FybmluZ3MhISEKCl9fRG8gbm90IHJ1biBhbnl0aGluZyBvbiB0aGUgaGVhZG5vZGVfXyBleGNlcHQgY2x1c3RlciBtYW5hZ2VtZW50IHRvb2xzIChzcXVldWUsIHNiYXRjaCwgZXRjKSwgY29tcGlsYXRpb24gdGFza3MgKGJ1dCB1c3VhbGx5IGFzayBDU0UgaGVscCBmb3IgYmlnIGFwcHMpLCBvciBkb3dubG9hZGluZyBmaWxlcy4gCi0gSWYgeW91IHJ1biBhbnl0aGluZyBvbiB0aGUgaGVhZG5vZGUsIHlvdSB3aWxsIGRpc2dyYWNlIHlvdXIgbGFiLgoKSW5zdGVhZCwgeW91IGNhbiBnZXQgYSBgYmFzaGAgdGVybWluYWwgdXNpbmcgYHNydW5gOgoKYGBge2Jhc2gsIGV2YWw9RkFMU0V9CnNydW4gLS1ub2Rlcz0xIC0tbWVtIDRHIC0tbnRhc2tzPTQgLS1saWNlbnNlcz1jb21tb24gLS10aW1lPTg6MDA6MDAgLS1wdHkgYmFzaApgYGAKCi0tCgpfX01vbml0b3IgeW91ciBkaXNrIHNwYWNlX18sIGFzIGl0IGNhbiBmaWxsIHVwIHF1aWNrbHkuCgotIFlvdSB3aWxsIHNlZSB0aGUgZGlzayB1c2FnZSBldmVyeSB0aW1lIHlvdSBsb2dpbgoKYGBge2Jhc2gsIGV2YWw9RkFMU0V9CmhjYy1kdQpgYGAKCi0tLQoKIyBTaW11bGF0ZSBOR1MgZGF0YQoKIyMjIEluc3RhbGwgYSBzb2Z0d2FyZSBvbiBjcmFuZQoKYGBge2Jhc2ggZXZhbD1GQUxTRX0KIyBodHRwczovL2dpdGh1Yi5jb20vbGgzL3dnc2ltCmdpdCBjbG9uZSBodHRwczovL2dpdGh1Yi5jb20vbGgzL3dnc2ltLmdpdAoKIyBjb21waWxhdGlvbgpnY2MgLWcgLU8yIC1XYWxsIC1vIHdnc2ltIHdnc2ltLmMgLWx6IC1sbQpgYGAKCiMjIyBQdXQgdGhlIHNvZnR3YXJlIGluIHlvdXIgc2VhcmNoaW5nIHBhdGgKCmBgYHtiYXNoLCBldmFsPUZBTFNFfQpjZCB+CnZpIC5iYXNoX3Byb2ZpbGUKYGBgCgpUaGVuIGNvcHkgdGhlIGZvbGxvd2luZyB0byB5b3VyIGAuYmFzaF9wcm9maWxlYAoKYGBge2Jhc2gsIGV2YWw9RkFMU0V9ClBBVEg9JFBBVEg6fi9iaW4vd2dzaW0vCmBgYAoKLS0tCgojIFJlZmVyZW5jZSBnZW5vbWUKCiMjIEVuc2VtYmxQbGFudHMKCi0gQnJlYWQgV2hlYXQ6IFtUcml0aWN1bSBhZXN0aXZ1bV0oaHR0cHM6Ly9wbGFudHMuZW5zZW1ibC5vcmcvVHJpdGljdW1fYWVzdGl2dW0vSW5mby9JbmRleCkKLSBDb21tb24gYmVhbjogW1BoYXNlb2x1cyB2dWxnYXJpc10oaHR0cHM6Ly9wbGFudHMuZW5zZW1ibC5vcmcvUGhhc2VvbHVzX3Z1bGdhcmlzL0luZm8vSW5kZXgpCi0gRG9tZXN0aWNhdGVkIHN1bmZsb3dlcjogW0hlbGlhbnRodXMgYW5udXVzXShodHRwczovL3BsYW50cy5lbnNlbWJsLm9yZy9IZWxpYW50aHVzX2FubnV1cy9JbmZvL0luZGV4KQotIE1haXplOiBbWmVhIG1heXNdKGh0dHBzOi8vcGxhbnRzLmVuc2VtYmwub3JnL1plYV9tYXlzL0luZm8vSW5kZXg/ZGI9Y29yZSkKLSBTb3liZWFuOiBbR2x5Y2luZSBtYXhdKGh0dHA6Ly9wbGFudHMuZW5zZW1ibC5vcmcvR2x5Y2luZV9tYXgvSW5mby9JbmRleCkKCi0tCgojIyBJbXBvcnRhbnQgaW5mbwotIFZlcnNpb24KLSBHZW5lIGFubm90YXRpb246IEdGRjMKCi0tLQoKIyBOR1MgZGF0YSBzaW11bGF0aW9uIHVzaW5nIGB3Z3NpbWAKCgpgYGB7YmFzaCwgZXZhbD1GQUxTRX0Kd2dzaW0gbGFtYmRhLmZhIC1OIDUwMDAgLTEgMTAwIC0yIDEwMCAtciAwLjAxIFxcCi1SIDAgLVggMCAtUyAxMjM0NTY3IGwxLnJlYWQxLmZxIGwxLnJlYWQyLmZxCmBgYAoKLSBSZWZlcmVuY2U6IDUwayBsYW1iZGEgZ2Vub21lIGRvd25sb2FkZWQgZnJvbSBbTkNCSV0oaHR0cHM6Ly93d3cubmNiaS5ubG0ubmloLmdvdi9udWNjb3JlLzIxNTEwNCNmZWF0dXJlX0owMjQ1OS4xKQogIC0gYGxhbWJkYS5mYWAKLSAyMHggY292ZXJhZ2UKICAtIGBOIDUwMDBgCi0gUEUgMTAwYnAKICAtIGAtMSAxMDAgLTIgMTAwYAotIE9ubHkgU05QIG5vIEluZGVsCiAgLSBgLVIgMCAtWCAwYAotIE11dGF0aW9uIHJhdGUgaXMgbG93IAogIC0gYC1yIDAuMDFgCgotLS0KCiMgTkdTIGRhdGEgc2ltdWxhdGlvbiB1c2luZyBgd2dzaW1gCgojIyBzaW11bGF0ZSA1IGluZGl2aWRhbHMKCmBgYHtiYXNoLCBldmFsPUZBTFNFfQpmb3IgaSBpbiB7MS4uNX0KZG8KICAgd2dzaW0gbGFtYmRhLmZhIC1OIDUwMDAgLTEgMTAwIC0yIDEwMCAtciAwLjAxIC1SIDAgLVggMCBsJGkucmVhZDEuZnEgbCRpLnJlYWQyLmZxCmRvbmUKCiMgY2hlY2sgaG93IG1hbnkgcmVhZHMKd2MgLWwgbDEucmVhZDEuZnEKYGBgCgotLS0KCiMgQSBwcm9jZWR1cmUgdG8gY2FsY3VsYXRlICRcdGhldGEkIHZhbHVlcwoKIyMjIDEuIEFsaWduIHRoZSBOR1MgcmVhZHMgdG8gdGhlIHJlZmVyZW5jZSBnZW5vbWUKCmBgYHtiYXNoLCBldmFsPUZBTFNFfQptb2R1bGUgbG9hZCBid2Egc2FtdG9vbHMKIyBpbmRleCB0aGUgcmVmZXJlbmNlIGdlbm9tZQpid2EgaW5kZXggbGFtYmRhLmZhCiMgdXNpbmcgYndhIG1lbSB0byBhbGlnbiB0aGUgcmVhZHMgdG8gdGhlIHJlZmVyZW5jZSBnZW5vbWUgCiMgPT4gc2FtdG9vbHMgdG8gY29udmVydCBpbnRvIGJhbSBmaWxlCmJ3YSBtZW0gbGFtYmRhLmZhIGwxLnJlYWQxLmZxIGwxLnJlYWQyLmZxIHwgc2FtdG9vbHMgdmlldyAtYlNoIC0gPiBsMS5iYW0KYGBgCgojIyMgRG8gYWxpZ25tZW50IGZvciA1IGluZGl2aWR1YWxzIHVzaW5nIGJhc2ggbG9vcDoKCmBgYHtiYXNoLCBldmFsPUZBTFNFfQojIGFsaWdubWVudApmb3IgaSBpbiB7MS4uNX07IGRvIGJ3YSBtZW0gbGFtYmRhLmZhIGwkaS5yZWFkMS5mcSBsJGkucmVhZDIuZnEgfCBzYW10b29scyB2aWV3IC1iU2ggLSA+IGwkaS5iYW07IGRvbmUKIyBzb3J0CmZvciBpIGluICouYmFtOyBkbyBzYW10b29scyBzb3J0ICRpIC1vIHNvcnRlZF8kaTsgZG9uZQojIGluZGV4IHRoZW0KZm9yIGkgaW4gc29ydGVkKi5iYW07IGRvIHNhbXRvb2xzIGluZGV4ICRpOyBkb25lCmBgYAoKLS0tCgojIEEgcHJvY2VkdXJlIHRvIGNhbGN1bGF0ZSAkXHRoZXRhJCB2YWx1ZXMKCiMjIyAyLiBDYWxjdWxhdGUgU0ZTIHVzaW5nIGBBTkdTRGAKCiMjIyMgSW5zdGFsbCBBTkdTRCBmaXJzdAoKYGBge2Jhc2gsIGV2YWw9RkFMU0V9CmNkIH4vYmluLyAjIGlmIHlvdSBkb24ndCBoYXZlIG9uZSwgZG8gYG1rZGlyIGJpbmAKZ2l0IGNsb25lIGh0dHBzOi8vZ2l0aHViLmNvbS9zYW10b29scy9odHNsaWIuZ2l0CmdpdCBjbG9uZSBodHRwczovL2dpdGh1Yi5jb20vQU5HU0QvYW5nc2QuZ2l0IApjZCBodHNsaWI7IG1ha2U7IApjZCAuLi9hbmdzZDsKbWFrZSBIVFNTUkM9Li4vaHRzbGliCmBgYAoKIyMjIyBydW4gYW5nc2QKCmBgYHtiYXNoLCBldmFsPUZBTFNFfQojIHdyaXRlIHRoZSBiYW0gZmlsZXMgdG8gYSB0eHQgZmlsZQpta2RpciBiYW1fZmlsZXMKbXYgc29ydGVkKi5iYW0gYmFtX2ZpbGVzCmNkIGJhbV9maWxlcwpscyBzb3J0ZWQqLmJhbSA+IGJhbS50eHQKCmFuZ3NkIC1iYW0gYmFtLnR4dCAtZG9TYWYgMSAtYW5jIC4uL2xhbWJkYS5mYSAtR0wgMSAgLW91dCBvdXQgCnJlYWxTRlMgb3V0LnNhZi5pZHggPiBvdXQuc2ZzCiMjIGNwIHNmcyB0byB0aGUgY2FjaGUvIGZvbGRlcgpjcCBvdXQuc2ZzIC4uLy4uLy4uL2NhY2hlLwpgYGAKCi0tLQoKIyBBIHByb2NlZHVyZSB0byBjYWxjdWxhdGUgJFx0aGV0YSQgdmFsdWVzCgojIyMgMy4gQ2FsY3VsYXRlIHRoZSB0aGV0YXMgZm9yIGVhY2ggc2l0ZQoKVGhlIG91dHB1dCBmcm9tIHRoZSBhYm92ZSBjb21tYW5kIGFyZSB0d28gZmlsZXMgb3V0LnRoZXRhcy5neiBhbmQgb3V0LnRoZXRhcy5pZHguIEEgZm9ybWFsIGRlc2NyaXB0aW9uIG9mIHRoZXNlIGZpbGVzIGNhbiBiZSBmb3VuZCBpbiB0aGUgZG9jL2Zvcm1hdHMucGRmIGluIHRoZSBhbmdzZCBwYWNrYWdlLiBJdCBpcyBwb3NzaWJsZSB0byBleHRyYWN0IHRoZSBsb2dzY2FsZSBwZXJzaXRlIHRoZXRhcyB1c2luZyB0aGUgLi90aGV0YVN0YXQgcHJpbnQgcHJvZ3JhbS4KCmBgYHtiYXNoLCBldmFsPUZBTFNFfQphbmdzZCAtYmFtIGJhbS5saXN0IC1vdXQgb3V0IC1kb1RoZXRhcyAxIC1kb1NhZiAxIC1wZXN0IG91dC5zZnMgLWFuYyAuLi9sYW1iZGEuZmEgLUdMIDEKdGhldGFTdGF0IHByaW50IG91dC50aGV0YXMuaWR4ID4gdGhldGEudHh0CiMjIGNwIHRoZXRhIHRvIHRoZSBjYWNoZS8gZm9sZGVyCmNwIHRoZXRhLnR4dCAuLi8uLi8uLi9jYWNoZS8KYGBgCgotLS0KCiMgVmlzdWFsaXplIHRoZSByZXN1bHRzCgpJbiBsb2NhbCBjb21wdXRlciwgdXNpbmcgYFJgOgoKYGBge3IsIGV2YWw9RkFMU0V9CnMgPC0gc2NhbignLi4vLi4vY2FjaGUvb3V0LnNmcycpCnMgPC0gc1stYygxLGxlbmd0aChzKSldCnMgPC0gcy9zdW0ocykKYmFycGxvdChzLG5hbWVzPTE6bGVuZ3RoKHMpLCBtYWluPSdTRlMnKQpgYGAKCgpgYGB7ciwgZXZhbD1GQUxTRX0KdCA8LSByZWFkLmNzdignLi4vLi4vY2FjaGUvdGhldGEudHh0Jywgc2VwPSJcdCIsIGhlYWRlcj1UUlVFKQpkaW0odCkgIwpoZWFkKHQpCmBgYAoKYGBge3IsIGV2YWw9RkFMU0V9Cmhpc3QodCRQYWlyd2lzZSwgeGxhYj0idGhldGEiLCBtYWluPSJIaXN0b2dyYW0gb2YgdGhldGEiKQpgYGAKCgoK</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiTkdTIHNpbXVsYXRpb24gYW5kIGRpdmVyc2l0eSBjYWxjdWxhdGlvbiIKYXV0aG9yOiAiSmlubGlhbmcgWWFuZyIKZGF0ZTogIjAxLTI5LTIwMjAiCm91dHB1dDogaHRtbF9ub3RlYm9vawotLS0KCgojIFN5bmNpbmcgeW91ciBmb3JrIHRvIHRoZSBvcmlnaW5hbCByZXBvIAoKMS4gT3BlbiB5b3VyIF9fZm9ya19fIG9mIHRoZSByZXBvc2l0b3J5IG9uIEdpdGh1YgoyLiBDbGljayB0aGUgX19Db21wYXJlX18gYnV0dG9uIHJpZ2h0IG5leHQgdG8gdGhlIF9fUHVsbCByZXF1ZXN0X18KMy4gQ2hhbmdlIHRoZSBfX2Jhc2UgcmVwb19fIHRvIHlvdXIgcmVwb3NpdG9yeQogIC0gWW91J3JlIG5vdyBiYWNrIHRvIHlvdXIgZm9yayBidXQgeW91J3ZlIGFsc28gYXNrZWQgdG8gY29tcGFyZSB0d28gaWRlbnRpY2FsIHJlcG9zaXRvcmllcyBzbyBHaXRIdWIgdGhpbmtzIHlvdSBjYXJlIGFib3V0IGJyYW5jaGVzIG5vdCBmb3Jrcy4gCiAgLSBDbGljayBvbiBfX2NvbXBhcmUgYWNyb3NzIGZvcmtzX18gdG8gZ2V0IGJhY2sgeW91ciBiYXNlIGZvcmsgb3B0aW9uLgo0LiBDaGFuZ2UgdGhlIF9faGVhZCByZXBvX18gdG8gdGhlIHVwc3RyZWFtIChvcmlnaW5hbCkgcmVwb3NpdG9yeSBfX2p5YW5nbGFiL2Fncm85MzItbGFiX18KNS4gWW91IHdpbGwgc2VlIGEgbGlzdCBvZiBjb21taXRzCiAgLSBUaGVzZSBhcmUgdGhlIGNvbW1pdHMgbWFkZSBieSBgeWFuZ2psYAo2LiBDbGljayBfX0NyZWF0ZSBwdWxsIHJlcXVlc3RfXwogIC0gTm90ZSB0aGF0IHRoaXMgcHVsbCByZXF1ZXN0IGlzIHRvIHlvdSEKICAKCi0tLQoKIyBVbml4IENvbW1hbmRzCgotIGBjZGA6IGNoYW5nZSB0aGUgd29ya2luZyBkaXJlY3RvcnkKLSBgbWtkaXJgOiBtYWtlIGRpcmVjdG9yaWVzCi0gYHB3ZGA6IHByaW50IG5hbWUgb2YgY3VycmVudCB3b3JraW5nIGRpcmVjdG9yeQotIGBsc2A6IGxpc3QgZGlyZWN0b3J5IGNvbnRlbnRzCi0gYGNobW9kYDogY2hhbmdlIHRoZSBhY2Nlc3MgcGVybWlzc2lvbnMgdG8gZmlsZXMgYW5kIGRpcmVjdG9yaWVzCi0gYGhlYWRgOiBvdXRwdXQgdGhlIGZpcnN0IHBhcnQgb2YgZmlsZXMKLSBgdGFpbGA6IG91dHB1dCB0aGUgbGFzdCBwYXJ0IG9mIGZpbGVzCi0gYG1vcmVgIGFuZCBgbGVzc2A6IGRpc3BsYXkgY29udGVudHMgb2YgbGFyZ2UgZmlsZXMgcGFnZSBieSBwYWdlIG9yIHNjcm9sbCBsaW5lIGJ5IGxpbmUgdXAgYW5kIGRvd24KLSBgd2NgOiBwcmludCBsaW5lLCB3b3JkLCBhbmQgYnl0ZSBjb3VudHMgZm9yIGVhY2ggZWFjaCBmaWxlCi0gYGdyZXBgOiBwcmludCBsaW5lcyBtYXRjaGluZyBhIHBhdHRlcm4KLSBgfGA6IHBpcGUsIGkuZS4sIGBscyAtbGEgfCBoZWFkIC1uIDEwMCA+PiBuZXdfZmlsZWAKCi0tLQoKIyBOR1MgZGF0YSBzaW11bGF0aW9uIHVzaW5nIGB3Z3NpbWAKCmBgYApVc2FnZTogICB3Z3NpbSBbb3B0aW9uc10gPGluLnJlZi5mYT4gPG91dC5yZWFkMS5mcT4gPG91dC5yZWFkMi5mcT4KCk9wdGlvbnM6IC1lIEZMT0FUICAgICAgYmFzZSBlcnJvciByYXRlIFswLjAyMF0KICAgICAgICAgLWQgSU5UICAgICAgICBvdXRlciBkaXN0YW5jZSBiZXR3ZWVuIHRoZSB0d28gZW5kcyBbNTAwXQogICAgICAgICAtcyBJTlQgICAgICAgIHN0YW5kYXJkIGRldmlhdGlvbiBbNTBdCiAgICAgICAgIC1OIElOVCAgICAgICAgbnVtYmVyIG9mIHJlYWQgcGFpcnMgWzEwMDAwMDBdCiAgICAgICAgIC0xIElOVCAgICAgICAgbGVuZ3RoIG9mIHRoZSBmaXJzdCByZWFkIFs3MF0KICAgICAgICAgLTIgSU5UICAgICAgICBsZW5ndGggb2YgdGhlIHNlY29uZCByZWFkIFs3MF0KICAgICAgICAgLXIgRkxPQVQgICAgICByYXRlIG9mIG11dGF0aW9ucyBbMC4wMDEwXQogICAgICAgICAtUiBGTE9BVCAgICAgIGZyYWN0aW9uIG9mIGluZGVscyBbMC4xNV0KICAgICAgICAgLVggRkxPQVQgICAgICBwcm9iYWJpbGl0eSBhbiBpbmRlbCBpcyBleHRlbmRlZCBbMC4zMF0KICAgICAgICAgLVMgSU5UICAgICAgICBzZWVkIGZvciByYW5kb20gZ2VuZXJhdG9yIFstMV0KICAgICAgICAgLUEgRkxPQVQgICAgICBkaXNnYXJkIGlmIHRoZSBmcmFjdGlvbiBvZiBhbWJpZ3VvdXMgCiAgICAgICAgICAgICAgICAgICAgICAgYmFzZXMgaGlnaGVyIHRoYW4gRkxPQVQgWzAuMDVdCiAgICAgICAgIC1oICAgICAgICAgICAgaGFwbG90eXBlIG1vZGUKYGBgCgojIyMjIFR5cGUgaW4gdGhlIGZvbGxvd2luZyBjb21tYW5kOgoKYGBge2Jhc2gsIGV2YWw9RkFMU0V9Cndnc2ltIGxhbWJkYS5mYSAtZSAwIC1kIDUwMCAtTiA1MDAwIC0xIDEwMCAtMiAxMDAgLXIgMC4wMSAgXAotUiAwIC1YIDAgLVMgMTIzNDU2NyAtaCBsMS5yZWFkMS5mcSBsMS5yZWFkMi5mcQpgYGAKCi0tLQoKIyBEb3dubG9hZCBSZWZlcmVuY2UgZnJvbSBFbnNlbWJsUGxhbnRzCgpNYWl6ZSBbcmVmZXJlbmNlIGdlbm9tZV0oaHR0cHM6Ly9wbGFudHMuZW5zZW1ibC5vcmcvWmVhX21heXMvSW5mby9JbmRleCkKCiMjIyMgQ2hhbmdlIHRvIGBsYXJnZWRhdGFcbGFiNGAgZm9sZGVyOgpgYGB7YmFzaCwgZXZhbD1GQUxTRX0KY2QgbGFyZ2VkYXRhCm1rZGlyIGxhYjQKY2QgbGFiNApgYGAKCgojIyMjIFRoZW4gdXNlIGB3Z2V0YCB0byBkb3dubG9hZCB0aGUgcmVmZXJlbmNlIGdlbm9tZToKCmBgYHtiYXNoLCBldmFsPUZBTFNFfQp3Z2V0IGZ0cDovL2Z0cC5lbnNlbWJsZ2Vub21lcy5vcmcvcHViL3BsYW50cy9yZWxlYXNlLTQ2L2Zhc3RhL3plYV9tYXlzL2RuYS9aZWFfbWF5cy5CNzNfUmVmR2VuX3Y0LmRuYS5jaHJvbW9zb21lLk10LmZhLmd6CgojIyMgdGhlbiB1bnppcCBpdApndW56aXAgWmVhX21heXMuQjczX1JlZkdlbl92NC5kbmEuY2hyb21vc29tZS5NdC5mYS5negpgYGAKCi0tLQoKIyBOR1MgZGF0YSBzaW11bGF0aW9uIHVzaW5nIGB3Z3NpbWAKCmBgYHtiYXNoLCBldmFsPUZBTFNFLCBlY2hvPUZBTFNFfQpjZCBsYXJnZWRhdGEvCm1rZGlyIGxhYjQgIyBjcmVhdGUgYSBzaW11bGF0aW9uIGRpcgpjcCAuLi9kYXRhL2xhbWJkYS5mYSBsYWI0LyAjIGNvcHkgdGhlIGxhbWJkYSByZWZlcmVuY2UgZ2Vub21lCmNkIGxhYjQKbHMgLWwgIyBub3cgeW91IHNob3VsZCBzZWUgYSBsYW1iZGEuZmEgZmlsZQpgYGAKCiMjIyMgVHlwZSBpbiB0aGUgZm9sbG93aW5nIGNvbW1hbmQ6CgpgYGB7YmFzaCwgZXZhbD1GQUxTRX0Kd2dzaW0gWmVhX21heXMuQjczX1JlZkdlbl92NC5kbmEuY2hyb21vc29tZS5NdC5mYSBcCi1lIDAgLWQgNTAwIC1OIDUwMDAgLTEgMTAwIC0yIDEwMCAtciAwLjAxICBcCi1SIDAgLVggMCAtUyAxMjM0NTY3IGwxLnJlYWQxLmZxIGwxLnJlYWQyLmZxCmBgYAoKLSBSZWZlcmVuY2UgKGFib3V0IDUwMGspCiAgLSBgWmVhX21heXMuQjczX1JlZkdlbl92NC5kbmEuY2hyb21vc29tZS5NdC5mYWAKLSAyMHggY292ZXJhZ2UKICAtIGBOIDUwMDBgCi0gUEUgMTAwYnAKICAtIGAtMSAxMDAgLTIgMTAwYAotIE9ubHkgU05QIG5vIEluZGVsCiAgLSBgLVIgMCAtWCAwYAotIE11dGF0aW9uIHJhdGUgaXMgbG93IAogIC0gYC1yIDAuMDFgCgotLS0KCiMgTkdTIGRhdGEgc2ltdWxhdGlvbiB1c2luZyBgd2dzaW1gCgojIyBzaW11bGF0ZSAxMCBpbmRpdmlkYWxzCgpgYGB7YmFzaCwgZXZhbD1GQUxTRX0KZm9yIGkgaW4gezEuLjEwfQpkbwogICB3Z3NpbSBaZWFfbWF5cy5CNzNfUmVmR2VuX3Y0LmRuYS5jaHJvbW9zb21lLk10LmZhIC1lIDAgLWQgNTAwIC1OIDUwMDAwIC0xIDEwMCAtMiAxMDAgLXIgMC4xICAtUiAwIC1YIDAgbCRpLnJlYWQxLmZxIGwkaS5yZWFkMi5mcQpkb25lCmBgYAoKLS0KCgojIyMjIGNoZWNrIGhvdyBtYW55IHJlYWRzCgpgYGB7YmFzaCwgZXZhbD1GQUxTRX0Kd2MgLWwgbDEucmVhZDEuZnEgCiMgc3VwcG9zZSB0byBiZSAyMDAsMDAwIGxpbmVzID0gNTAsMDAwIHJlYWRzCmBgYAoKLS0tCgojIEEgcHJvY2VkdXJlIHRvIGNhbGN1bGF0ZSAkXHRoZXRhJCBhbmQgJEZfe1NUfSQgdmFsdWVzCgojIyMgMS4gQWxpZ24gdGhlIE5HUyByZWFkcyB0byB0aGUgcmVmZXJlbmNlIGdlbm9tZQogIC0gW2J3YV0oaHR0cHM6Ly9naXRodWIuY29tL2xoMy9id2EpCiAgLSBbc2FtdG9vbHNdKGh0dHBzOi8vZ2l0aHViLmNvbS9zYW10b29scy9zYW10b29scykKCgojIyMgMi4gQ2FsY3VsYXRlIFNGUyAKICAtIFtBTkdTRF0oaHR0cDovL3d3dy5wb3BnZW4uZGsvYW5nc2QvaW5kZXgucGhwL0FOR1NEKQoKIyMjIDMuIENhbGN1bGF0ZSB0aGUgdGhldGFzIGFuZCBGc3QgZm9yIGVhY2ggc2l0ZQogIC0gQU5HU0QKCi0tLQojIEEgcHJvY2VkdXJlIHRvIGNhbGN1bGF0ZSAkXHRoZXRhJCBhbmQgJEZfe1NUfSQgdmFsdWVzCgojIyMgMS4gQWxpZ24gdGhlIE5HUyByZWFkcyB0byB0aGUgcmVmZXJlbmNlIGdlbm9tZQoKYGBge2Jhc2gsIGV2YWw9RkFMU0V9Cm1vZHVsZSBsb2FkIGJ3YSBzYW10b29scwojIGluZGV4IHRoZSByZWZlcmVuY2UgZ2Vub21lCmJ3YSBpbmRleCBaZWFfbWF5cy5CNzNfUmVmR2VuX3Y0LmRuYS5jaHJvbW9zb21lLk10LmZhCiMgdXNpbmcgYndhIG1lbSB0byBhbGlnbiB0aGUgcmVhZHMgdG8gdGhlIHJlZmVyZW5jZSBnZW5vbWUgCiMgPT4gc2FtdG9vbHMgdG8gY29udmVydCBpbnRvIGJhbSBmaWxlCmJ3YSBtZW0gWmVhX21heXMuQjczX1JlZkdlbl92NC5kbmEuY2hyb21vc29tZS5NdC5mYSBsMS5yZWFkMS5mcSBsMS5yZWFkMi5mcSB8IHNhbXRvb2xzIHZpZXcgLWJTaCAtID4gbDEuYmFtCmBgYAoKIyMjIyBEbyBhbGlnbm1lbnQgZm9yIDIgaW5kaXZpZHVhbHMgdXNpbmcgYmFzaCBsb29wOgoKYGBge2Jhc2gsIGV2YWw9RkFMU0V9CiMgYWxpZ25tZW50CmZvciBpIGluIHsxLi4yfTsgZG8gYndhIG1lbSBaZWFfbWF5cy5CNzNfUmVmR2VuX3Y0LmRuYS5jaHJvbW9zb21lLk10LmZhIGwkaS5yZWFkMS5mcSBsJGkucmVhZDIuZnEgfCBzYW10b29scyB2aWV3IC1iU2ggLSA+IGwkaS5iYW07IGRvbmUKIyBzb3J0CmZvciBpIGluICouYmFtOyBkbyBzYW10b29scyBzb3J0ICRpIC1vIHNvcnRlZF8kaTsgZG9uZQojIGluZGV4IHRoZW0KZm9yIGkgaW4gc29ydGVkKi5iYW07IGRvIHNhbXRvb2xzIGluZGV4ICRpOyBkb25lCmBgYAoKCiMjIyMgQ2hlY2sgbWFwcGluZyBzdGF0aXN0aWNzCgpgYGB7YmFzaCwgZXZhbD1GQUxTRX0Kc2FtdG9vbHMgZmxhZ3N0YXQgc29ydGVkX2wxLmJhbQpgYGAKCi0tLQoKIyBTdWJtaXQgYSBTbHVybSBqb2IKCi0gV2Ugd3JhcCBvdXIgam9icyBpbiBsaXR0bGUgYmF0Y2ggc2NyaXB0cywgd2hpY2ggaXMgbmljZSBiZWNhdXNlIHRoZXNlIGFsc28gaGVscCBtYWtlIHN0ZXBzIHJlcHJvZHVjaWJsZS4gCgotIFRvIGtlZXAgeW91ciBkaXJlY3Rvcnkgb3JnYW5pemVkLCBJIHVzdWFsbHkga2VlcCBhIHNjcmlwdHMgZGlyZWN0b3J5IChpLmUuLCBgc2x1cm0tc2NyaXB0L2AgKSBhbmQgbG9nIGRpciAoaS5lLiwgYHNsdXJtLWxvZ2AgKSAgZm9yIFNsdXJt4oCZcyBsb2dzLgogIC0gVGlwOiB1c2UgdGhlc2UgbG9ncywgYXMgdGhlc2UgYXJlIHZlcnkgaGVscGZ1bCBpbiBkZWJ1Z2dpbmcuIEkgc2VwYXJhdGUgdGhlbSBmcm9tIG15IHByb2plY3QgYmVjYXVzZSB0aGV5IGZpbGwgdXAgZGlyZWN0b3JpZXMgcmF0aGVyIHF1aWNrbHkuCgotLQoKTGV04oCZcyBsb29rIGF0IGFuIGV4YW1wbGUgX19zbHVybSBzY3JpcHQgaGVhZGVyX18gZm9yIGEgam9iIGNhbGxlZCBgdGhldGFgICh3aGljaCBpcyBydW4gd2l0aCBzY3JpcHQgYHRoZXRhLnNoYCkuCgpgYGB7YmFzaCwgZXZhbD1GQUxTRX0KIyEvYmluL2Jhc2ggLWwKI1NCQVRDSCAtRCB+cHJvamVjdHMveW91ci1jb29sLXByb2plY3QvCiNTQkFUQ0ggLW8gfi95b3VyLWNvb2wtcHJvamVjdC9zbHVybS1sb2cvc3RldmUtc3Rkb3V0LSVqLnR4dAojU0JBVENIIC1lIH4veW91ci1jb29sLXByb2plY3Qvc2x1cm0tbG9nL3N0ZXZlLXN0ZGVyci0lai50eHQKI1NCQVRDSCAtSiBzdGV2ZQojU0JBVENIIC10IDI0OjAwOjAwCnNldCAtZQpzZXQgLXUKCiMgaW5zZXJ0IHlvdXIgc2NyaXB0IGhlcmUKYGBgCgoKLS0tCgojIyBBbiBFeGFtcGxlIFNsdXJtIEJhdGNoIFNjcmlwdCBIZWFkZXIKCmBgYHtiYXNoLCBldmFsPUZBTFNFfQojIS9iaW4vYmFzaCAtbAojU0JBVENIIC1EIH4vcHJvamVjdHMveW91ci1jb29sLXByb2plY3QvCiNTQkFUQ0ggLW8gfi95b3VyLWNvb2wtcHJvamVjdC9zbHVybS1sb2cvc3RldmUtc3Rkb3V0LSVqLnR4dAojU0JBVENIIC1lIH4veW91ci1jb29sLXByb2plY3Qvc2x1cm0tbG9nL3N0ZXZlLXN0ZGVyci0lai50eHQKI1NCQVRDSCAtSiB0aGV0YQojU0JBVENIIC10IDI0OjAwOjAwCiNTQkFUQ0ggLS1tYWlsLXVzZXI9eW91cl9lbWFpbF9hZGRyZXNzQGdtYWlsLmNvbQojU0JBVENIIC0tbWFpbC10eXBlPUVORCAjZW1haWwgaWYgZW5kcwojU0JBVENIIC0tbWFpbC10eXBlPUZBSUwgI2VtYWlsIGlmIGZhaWxzCnNldCAtZQpzZXQgLXUKCiMgaW5zZXJ0IHlvdXIgc2NyaXB0IGhlcmUKYGBgCgotIGBEYCBzZXRzIHlvdXIgcHJvamVjdCBkaXJlY3RvcnkuCi0gYG9gIHNldHMgd2hlcmUgc3RhbmRhcmQgb3V0cHV0IChvZiB5b3VyIGJhdGNoIHNjcmlwdCkgZ29lcy4KLSBgZWAgc2V0cyB3aGVyZSBzdGFuZGFyZCBlcnJvciAob2YgeW91ciBiYXRjaCBzY3JpcHQpIGdvZXMuCi0gYEpgIHNldHMgdGhlIGpvYiBuYW1lLgotIGB0YCBzZXRzIHRoZSB0aW1lIGxpbWl0IGZvciB0aGUgam9iLCAyNDowMDowMCBpbmRpY2F0ZXMgMjQgaG91cnMuCi0gYC0tbWFpbGA6IHdpbGwgZW1haWwgeW91IGlmIHRoZSBqb2IgaXMgIkVORCIgb3IgIkZBSUwiCgotLS0KCiMjIEFuIEV4YW1wbGUgU2x1cm0gQmF0Y2ggU2NyaXB0IEhlYWRlcgoKYGBge2Jhc2gsIGV2YWw9RkFMU0V9CmNkIHNsdXJtLXNjcmlwdAp2aSBteV90aGV0YS5zaAppICMgaW5zZXJ0IHRleHQKCmBgYAoKLSBDb3B5IHRoZSBhYm92ZSBoZWFkZXIgdG8gYSBgLnNoYCBmaWxlIGFuZCBtYWtlIGFwcHJvcHJpYXRlIG1vZGlmaWNhdGlvbnMKCi0gSW5zZXJ0IHRoZSBmb2xsb3dpbmc6CgpgYGB7YmFzaCwgZXZhbD1GQUxTRX0KIyBtb2R1bGUgbG9hZCBid2Egc2FtdG9vbHMKIyBjZCBsYXJnZWRhdGEvbGFiNC8KCiMgYWxpZ25tZW50CmZvciBpIGluIHsxLi4yfTsgZG8gYndhIG1lbSBaZWFfbWF5cy5CNzNfUmVmR2VuX3Y0LmRuYS5jaHJvbW9zb21lLk10LmZhIGwkaS5yZWFkMS5mcSBsJGkucmVhZDIuZnEgfCBzYW10b29scyB2aWV3IC1iU2ggLSA+IGwkaS5iYW07IGRvbmUKIyBzb3J0CmZvciBpIGluICouYmFtOyBkbyBzYW10b29scyBzb3J0ICRpIC1vIHNvcnRlZF8kaTsgZG9uZQojIGluZGV4IHRoZW0KZm9yIGkgaW4gc29ydGVkKi5iYW07IGRvIHNhbXRvb2xzIGluZGV4ICRpOyBkb25lCmBgYAoKLS0KCi0gc3VibWl0IHRoZSBqb2IgdmlhIGBzYmF0Y2hgOgoKYGBge2Jhc2gsIGV2YWw9RkFMU0V9CnNiYXRjaCAtLWxpY2Vuc2VzPWNvbW1vbiAtLW50YXNrcz0xIC0tbWVtPTVHIHNsdXJtLXNjcmlwdC9teV90aGV0YS5zaAoKIyMgY2hlY2sgeW91ciBqb2Igc3RhdHVzCnNxdWV1ZSB8IGdyZXAgIllPVVIgVVNFUiBJRCIKYGBgCgoKLS0tCgojIEEgcHJvY2VkdXJlIHRvIGNhbGN1bGF0ZSAkXHRoZXRhJCB2YWx1ZXMKCiMjIyAyLiBDYWxjdWxhdGUgU0ZTIHVzaW5nIGBBTkdTRGAKCiMjIyMgSW5zdGFsbCBBTkdTRCBmaXJzdAoKYGBge2Jhc2gsIGV2YWw9RkFMU0V9CmNkIH4vYmluLyAjIGlmIHlvdSBkb24ndCBoYXZlIG9uZSwgZG8gYG1rZGlyIGJpbmAKZ2l0IGNsb25lIGh0dHBzOi8vZ2l0aHViLmNvbS9zYW10b29scy9odHNsaWIuZ2l0CmdpdCBjbG9uZSBodHRwczovL2dpdGh1Yi5jb20vQU5HU0QvYW5nc2QuZ2l0IApjZCBodHNsaWI7IG1ha2U7IApjZCAuLi9hbmdzZDsKbWFrZSBIVFNTUkM9Li4vaHRzbGliCmBgYAoKIyMjIyBydW4gYW5nc2QKCmBgYHtiYXNoLCBldmFsPUZBTFNFfQojIHdyaXRlIHRoZSBiYW0gZmlsZXMgdG8gYSB0eHQgZmlsZQpta2RpciBiYW1fZmlsZXMKbXYgc29ydGVkKi5iYW0gYmFtX2ZpbGVzCmNkIGJhbV9maWxlcwpscyBzb3J0ZWQqLmJhbSA+IGJhbS50eHQKYGBgCgotLS0KCiMgQSBwcm9jZWR1cmUgdG8gY2FsY3VsYXRlICRcdGhldGEkIHZhbHVlcwoKCmBgYHtiYXNoLCBldmFsPUZBTFNFfQphbmdzZCAtYmFtIGJhbS50eHQgLWRvU2FmIDEgLWFuYyAuLi9aZWFfbWF5cy5CNzNfUmVmR2VuX3Y0LmRuYS5jaHJvbW9zb21lLk10LmZhIC1HTCAxICAtb3V0IG91dCAKIyB1c2UgcmVhbFNGUyB0byBjYWxjdWxhdGUgc2ZzCnJlYWxTRlMgb3V0LnNhZi5pZHggPiBvdXQuc2ZzCmBgYAoKIyMjIyBDb3B5IHRoZSByZXN1bHQgdG8gYGNhY2hlL2AgZm9sZGVyCgpgYGB7YmFzaCwgZXZhbD1GQUxTRX0KIyMgY3Agc2ZzIHRvIHRoZSBjYWNoZS8gZm9sZGVyCmNwIG91dC5zZnMgLi4vLi4vLi4vY2FjaGUvCmBgYAoKCgojIyMgMy4gQ2FsY3VsYXRlIHRoZSB0aGV0YXMgZm9yIGVhY2ggc2l0ZQoKVGhlIG91dHB1dCBmcm9tIHRoZSBhYm92ZSBjb21tYW5kIGFyZSB0d28gZmlsZXMgb3V0LnRoZXRhcy5neiBhbmQgb3V0LnRoZXRhcy5pZHguIEEgZm9ybWFsIGRlc2NyaXB0aW9uIG9mIHRoZXNlIGZpbGVzIGNhbiBiZSBmb3VuZCBpbiB0aGUgZG9jL2Zvcm1hdHMucGRmIGluIHRoZSBhbmdzZCBwYWNrYWdlLiBJdCBpcyBwb3NzaWJsZSB0byBleHRyYWN0IHRoZSBsb2dzY2FsZSBwZXJzaXRlIHRoZXRhcyB1c2luZyB0aGUgLi90aGV0YVN0YXQgcHJpbnQgcHJvZ3JhbS4KCmBgYHtiYXNoLCBldmFsPUZBTFNFfQphbmdzZCAtYmFtIGJhbS50eHQgLW91dCBvdXQgLWRvVGhldGFzIDEgLWRvU2FmIDEgLXBlc3Qgb3V0LnNmcyAtYW5jIC4uL1plYV9tYXlzLkI3M19SZWZHZW5fdjQuZG5hLmNocm9tb3NvbWUuTXQuZmEgLUdMIDEKdGhldGFTdGF0IHByaW50IG91dC50aGV0YXMuaWR4ID4gdGhldGEudHh0CiMjIGNwIHRoZXRhIHRvIHRoZSBjYWNoZS8gZm9sZGVyCmNwIHRoZXRhLnR4dCAuLi8uLi8uLi9jYWNoZS8KYGBgCgotLS0KCiMgQSBwcm9jZWR1cmUgdG8gY2FsY3VsYXRlICRGX3tTVH0kCgojIyMjIENyZWF0ZSB0d28gbGlzdCBiYW0gZmlsZXMKCgojIyMjIFR3byBwb3B1bGF0aW9uIEZzdApgYGB7YmFzaCwgZXZhbD1GQUxTRX0KIyBmaXJzdCBjYWxjdWxhdGUgcGVyIHBvcCBzYWYgZm9yIGVhY2ggcG9wdWxhdG9pbgphbmdzZCAtYiBwb3AxLnR4dCAtYW5jIC4uL1plYV9tYXlzLkI3M19SZWZHZW5fdjQuZG5hLmNocm9tb3NvbWUuTXQuZmEgLW91dCBwb3AxIC1kb3NhZiAxIC1nbCAxCmFuZ3NkIC1iIHBvcDIudHh0IC1hbmMgLi4vWmVhX21heXMuQjczX1JlZkdlbl92NC5kbmEuY2hyb21vc29tZS5NdC5mYSAtb3V0IHBvcDIgLWRvc2FmIDEgLWdsIDEKIyBjYWxjdWxhdGUgdGhlIDJkc2ZzIHByaW9yCnJlYWxTRlMgcG9wMS5zYWYuaWR4IHBvcDIuc2FmLmlkeCA+IHBvcDEucG9wMi5tbAojIHByZXBhcmUgdGhlIGZzdCBmb3IgZWFzeSB3aW5kb3cgYW5hbHlzaXMgZXRjCnJlYWxTRlMgZnN0IGluZGV4IHBvcDEuc2FmLmlkeCBwb3AyLnNhZi5pZHggLXNmcyBwb3AxLnBvcDIubWwgLWZzdG91dCBvdXQKIyBnZXQgdGhlIGdsb2JhbCBlc3RpbWF0ZQpyZWFsU0ZTIGZzdCBzdGF0cyBvdXQuZnN0LmlkeCAKIyBiZWxvdyBpcyBub3QgdGVzdGVkIHRoYXQgbXVjaCwgYnV0IHNlZW1zIHRvIHdvcmsKcmVhbFNGUyBmc3Qgc3RhdHMyIG91dC5mc3QuaWR4IC13aW4gNTAwIC1zdGVwIDEwMCA+IGZzdF93aW4udHh0CgpgYGAKCiMjIyMgQ29weSB0aGUgcmVzdWx0IHRvIGBjYWNoZS9gIGZvbGRlcgoKYGBge2Jhc2gsIGV2YWw9RkFMU0V9CiMjIGNwIHNmcyB0byB0aGUgY2FjaGUvIGZvbGRlcgpjcCBmc3Rfd2luLnR4dCAuLi8uLi8uLi9jYWNoZS8KYGBgCgotLS0KCiMgVmlzdWFsaXplIHRoZSByZXN1bHRzCgpJbiBsb2NhbCBjb21wdXRlciwgdXNpbmcgYFJgOgoKIyMjIyBCYXJwbG90IGZvciBTRlMKCmBgYHtyLCBldmFsPUZBTFNFfQpzIDwtIHNjYW4oJy4uLy4uL2NhY2hlL291dC5zZnMnKQpzIDwtIHNbLWMoMSxsZW5ndGgocykpXQpzIDwtIHMvc3VtKHMpCmJhcnBsb3QocyxuYW1lcz0xOmxlbmd0aChzKSwgbWFpbj0nU0ZTJykKYGBgCgojIyMjIEhpc3RncmFtIGRpc3RyaWJ1dGlvbiBvZiB0aGUgdGhldGEgdmFsdWVzCgpgYGB7ciwgZXZhbD1GQUxTRX0KaGlzdCh0JFBhaXJ3aXNlKQpgYGAKCiMjIyMgU2NhdHRlciBwbG90IG9mIHRoZSBGc3QgdmFsdWVzCgoKYGBge3IsIGV2YWw9RkFMU0V9CmZzdCA8LSByZWFkLnRhYmxlKCJjYWNoZS9mc3Rfd2luLnR4dCIsIHNraXA9MSwgaGVhZGVyPUZBTFNFKQpuYW1lcyhmc3QpW2MoMyw1KV0gPC0gYygibWlkcCIsICJmc3QiKQpwbG90KGZzdCRtaWRwLCBmc3QkZnN0LCB4bGFiPSJQaHlzaWNhbCBwb3NpdGlvbiIsIHlsYWI9IkZzdCIsIGNvbD0iIzVmOWVhMCIsIHBjaD0xNikKYGBgCgotLS0KCiMgR2VuZXJhbCBmZWF0dXJlIGZvcm1hdCAoR0ZGKSBmcm9tIEVuc2VtYmxQbGFudHMKCk1haXplIFtyZWZlcmVuY2UgZ2Vub21lXShodHRwczovL3BsYW50cy5lbnNlbWJsLm9yZy9aZWFfbWF5cy9JbmZvL0luZGV4KQoKY2hhbmdlIHRvIGBsYXJnZWRhdGFcbGFiNGAgZm9sZGVyOgoKYGBge2Jhc2gsIGV2YWw9RkFMU0V9CndnZXQgZnRwOi8vZnRwLmVuc2VtYmxnZW5vbWVzLm9yZy9wdWIvcGxhbnRzL3JlbGVhc2UtNDYvZmFzdGEvemVhX21heXMvZG5hL1plYV9tYXlzLkI3M19SZWZHZW5fdjQuZG5hLmNocm9tb3NvbWUuTXQuZmEuZ3oKCiMjIyB0aGVuIHVuemlwIGl0Cmd1bnppcCBaZWFfbWF5cy5CNzNfUmVmR2VuX3Y0LmRuYS5jaHJvbW9zb21lLk10LmZhLmd6CmBgYAoKU2ltaWxhcmx5LCB3ZSB3aWxsIGRvd25sb2FkIGFuZCB1bnppcCB0aGUgW010IEdGRjNdKGZ0cDovL2Z0cC5lbnNlbWJsZ2Vub21lcy5vcmcvcHViL3BsYW50cy9yZWxlYXNlLTQ2L2dmZjMvemVhX21heXMvWmVhX21heXMuQjczX1JlZkdlbl92NC40Ni5jaHJvbW9zb21lLk10LmdmZjMuZ3opIGZpbGUKCi0tCgojIyMjIFVzZSBSIHRvIHByb2Nlc3MgdGhlIEdGRjMgZmlsZQoKYGBge3IsIGV2YWw9RkFMU0V9CiMgaW5zdGFsbC5wYWNrYWdlKCJkYXRhLnRhYmxlIikKbGlicmFyeSgiZGF0YS50YWJsZSIpCgojIyBzaW1wbHkgcmVhZCBpbiB3b3VsZG4ndCB3b3JrCmdmZiA8LSBmcmVhZCgibGFyZ2VkYXRhL2xhYjQvWmVhX21heXMuQjczX1JlZkdlbl92NC40Ni5jaHJvbW9zb21lLk10LmdmZjMiLCBza2lwPSIjIiwgaGVhZGVyPUZBTFNFLCBkYXRhLnRhYmxlPUZBTFNFKQoKIyMgZ3JlcCAtdiBtZWFucyBzZWxlY3QgbGluZXMgdGhhdCBub3QgbWF0Y2hpbmcgYW55IG9mIHRoZSBzcGVjaWZpZWQgcGF0dGVybnMKZ2ZmIDwtIGZyZWFkKGNtZD0nZ3JlcCAtdiAiIyIgbGFyZ2VkYXRhL2xhYjQvWmVhX21heXMuQjczX1JlZkdlbl92NC40Ni5jaHJvbW9zb21lLk10LmdmZjMnLCBoZWFkZXI9RkFMU0UsIGRhdGEudGFibGU9RkFMU0UpCmBgYAoKLS0tCgojIEdlbmVyYWwgZmVhdHVyZSBmb3JtYXQgKEdGRikgdmVyc2lvbiAzCgpgYGAKICBWMSAgICAgIFYyICAgICAgICAgVjMgICBWNCAgICAgVjUgVjYgVjcgVjgKMSBNdCBHcmFtZW5lIGNocm9tb3NvbWUgICAgMSA1Njk2MzAgIC4gIC4gIC4KMiBNdCBlbnNlbWJsICAgICAgIGdlbmUgNjM5MSAgIDY3MzggIC4gICsgIC4KMyBNdCAgICBOQ0JJICAgICAgIG1STkEgNjM5MSAgIDY3MzggIC4gICsgIC4KNCBNdCAgICBOQ0JJICAgICAgIGV4b24gNjM5MSAgIDY3MzggIC4gICsgIC4KNSBNdCAgICBOQ0JJICAgICAgICBDRFMgNjM5MSAgIDY3MzggIC4gICsgIDAKNiBNdCBlbnNlbWJsICAgICAgIGdlbmUgNjk1MSAgIDgyODUgIC4gICsgIC4KICAgICAgICAgICAgICAgICAgVjkKMSAgIElEPWNocm9tb3NvbWU6TXQ7QWxpYXM9QVk1MDY1MjkuMSxOQ18wMDc5ODIuMTtJc19jaXJjdWxhcj10cnVlCjIgICBJRD1nZW5lOlplYW1NcDAwMjtiaW90eXBlPXByb3RlaW5fY29kaW5nO2Rlc2NyaXB0aW9uPW9yZjExNS1hMTsKMyAgIElEPXRyYW5zY3JpcHQ6WmVhbU1wMDAyO1BhcmVudD1nZW5lOlplYW1NcDAwMjsKNCAgIFBhcmVudD10cmFuc2NyaXB0OlplYW1NcDAwMjtOYW1lPVplYW1NcDAwMi5leG9uMTtjb25zdGl0dXRpdmU9MTtlbnNlbWJsX2VuZF9waGFzZT0wOwo1ICAgSUQ9Q0RTOlplYW1NcDAwMjtQYXJlbnQ9dHJhbnNjcmlwdDpaZWFtTXAwMDI7CjYgICBJRD1nZW5lOlplYW1NcDAwMztiaW90eXBlPXByb3RlaW5fY29kaW5nO2Rlc2NyaXB0aW9uPW9yZjQ0NApgYGAKCi0tLQoKIyBHZW5lcmFsIGZlYXR1cmUgZm9ybWF0IChHRkYpIHZlcnNpb24gMwoKYGBgCiAgVjEgICAgICBWMiAgICAgICAgIFYzICAgVjQgICAgIFY1IFY2IFY3IFY4CjEgTXQgR3JhbWVuZSBjaHJvbW9zb21lICAgIDEgNTY5NjMwICAuICAuICAuCjIgTXQgZW5zZW1ibCAgICAgICBnZW5lIDYzOTEgICA2NzM4ICAuICArICAuCiAgICAgICAgICAgICAgICAgIFY5CjEgICBJRD1jaHJvbW9zb21lOk10O0FsaWFzPUFZNTA2NTI5LjEsTkNfMDA3OTgyLjE7SXNfY2lyY3VsYXI9dHJ1ZQoyICAgSUQ9Z2VuZTpaZWFtTXAwMDI7YmlvdHlwZT1wcm90ZWluX2NvZGluZztkZXNjcmlwdGlvbj1vcmYxMTUtYTE7CmBgYAotLS0tLS0tLS0tLS0tLQoKLSAxCV9fc2VxdWVuY2VfXzoJVGhlIG5hbWUgb2YgdGhlIHNlcXVlbmNlIHdoZXJlIHRoZSBmZWF0dXJlIGlzIGxvY2F0ZWQuCgotIDIJX19zb3VyY2VfXzoJS2V5d29yZCBpZGVudGlmeWluZyB0aGUgc291cmNlIG9mIHRoZSBmZWF0dXJlLCBsaWtlIGEgcHJvZ3JhbSAoZS5nLiBSZXBlYXRNYXNrZXIpIG9yIGFuIG9yZ2FuaXphdGlvbiAobGlrZSBlbnNlbWJsKS4KCi0gMwlfX2ZlYXR1cmVfXzoJVGhlIGZlYXR1cmUgdHlwZSBuYW1lLCBsaWtlICJnZW5lIiBvciAiZXhvbiIuIAogIC0gSW4gYSB3ZWxsIHN0cnVjdHVyZWQgR0ZGIGZpbGUsIGFsbCB0aGUgY2hpbGRyZW4gZmVhdHVyZXMgYWx3YXlzIGZvbGxvdyB0aGVpciBwYXJlbnRzIGluIGEgc2luZ2xlIGJsb2NrIChzbyBhbGwgZXhvbnMgb2YgYSB0cmFuc2NyaXB0IGFyZSBwdXQgYWZ0ZXIgdGhlaXIgcGFyZW50ICJ0cmFuc2NyaXB0IiBmZWF0dXJlIGxpbmUgYW5kIGJlZm9yZSBhbnkgb3RoZXIgcGFyZW50IHRyYW5zY3JpcHQgbGluZSkuCiAgCi0gNAlfX3N0YXJ0X186CUdlbm9taWMgc3RhcnQgb2YgdGhlIGZlYXR1cmUsIHdpdGggYSAxLWJhc2Ugb2Zmc2V0LiAKICAtIFRoaXMgaXMgaW4gY29udHJhc3Qgd2l0aCBvdGhlciAwLW9mZnNldCBoYWxmLW9wZW4gc2VxdWVuY2UgZm9ybWF0cywgbGlrZSBbQkVEXSgpLgogIAoKLS0tCiMgR2VuZXJhbCBmZWF0dXJlIGZvcm1hdCAoR0ZGKSB2ZXJzaW9uIDMKCmBgYAogIFYxICAgICAgVjIgICAgICAgICBWMyAgIFY0ICAgICBWNSBWNiBWNyBWOAoxIE10IEdyYW1lbmUgY2hyb21vc29tZSAgICAxIDU2OTYzMCAgLiAgLiAgLgoyIE10IGVuc2VtYmwgICAgICAgZ2VuZSA2MzkxICAgNjczOCAgLiAgKyAgLgogICAgICAgICAgICAgICAgICBWOQoxICAgSUQ9Y2hyb21vc29tZTpNdDtBbGlhcz1BWTUwNjUyOS4xLE5DXzAwNzk4Mi4xO0lzX2NpcmN1bGFyPXRydWUKMiAgIElEPWdlbmU6WmVhbU1wMDAyO2Jpb3R5cGU9cHJvdGVpbl9jb2Rpbmc7ZGVzY3JpcHRpb249b3JmMTE1LWExOwpgYGAKCi0tLS0tLS0tLS0tLS0tCgotIDUJX19lbmRfXzoJR2Vub21pYyBlbmQgb2YgdGhlIGZlYXR1cmUsIHdpdGggYSAxLWJhc2Ugb2Zmc2V0LiAKICAtIFRoaXMgaXMgdGhlIHNhbWUgZW5kIGNvb3JkaW5hdGUgYXMgaXQgaXMgaW4gMC1vZmZzZXQgaGFsZi1vcGVuIHNlcXVlbmNlIGZvcm1hdHMsIGxpa2UgQkVELgoKLSA2CV9fc2NvcmVfXzoJTnVtZXJpYyB2YWx1ZSB0aGF0IGdlbmVyYWxseSBpbmRpY2F0ZXMgdGhlIGNvbmZpZGVuY2Ugb2YgdGhlIHNvdXJjZSBpbiB0aGUgYW5ub3RhdGVkIGZlYXR1cmUuIAogIC0gQSB2YWx1ZSBvZiAiLiIgKGEgZG90KSBpcyB1c2VkIHRvIGRlZmluZSBhIG51bGwgdmFsdWUuCiAgCi0gNwlfX3N0cmFuZF9fOglTaW5nbGUgY2hhcmFjdGVyIHRoYXQgaW5kaWNhdGVzIHRoZSBzdHJhbmQgb2YgdGhlIGZlYXR1cmUuIAogIC0gaXQgY2FuIGFzc3VtZSB0aGUgdmFsdWVzIG9mICIrIiAocG9zaXRpdmUsIG9yIDUnIC0+IDMnKSwgCiAgLSAiLSIsIChuZWdhdGl2ZSwgb3IgMycgLT4gNScpLCAiLiIgKHVuZGV0ZXJtaW5lZCkuCgotLS0KIyBHZW5lcmFsIGZlYXR1cmUgZm9ybWF0IChHRkYpIHZlcnNpb24gMwoKYGBgCiAgVjEgICAgICBWMiAgICAgICAgIFYzICAgVjQgICAgIFY1IFY2IFY3IFY4CjEgTXQgR3JhbWVuZSBjaHJvbW9zb21lICAgIDEgNTY5NjMwICAuICAuICAuCjIgTXQgZW5zZW1ibCAgICAgICBnZW5lIDYzOTEgICA2NzM4ICAuICArICAuCiAgICAgICAgICAgICAgICAgIFY5CjEgICBJRD1jaHJvbW9zb21lOk10O0FsaWFzPUFZNTA2NTI5LjEsTkNfMDA3OTgyLjE7SXNfY2lyY3VsYXI9dHJ1ZQoyICAgSUQ9Z2VuZTpaZWFtTXAwMDI7YmlvdHlwZT1wcm90ZWluX2NvZGluZztkZXNjcmlwdGlvbj1vcmYxMTUtYTE7CmBgYAoKLS0tLS0tLS0tLS0tLS0KCi0gOAlfX3BoYXNlX186CXBoYXNlIG9mIENEUyAoX19tZWFucyBDb0RpbmcgU2VxdWVuY2VfXykgZmVhdHVyZXMuIAogIC0gVGhlIHBoYXNlIGluZGljYXRlcyB3aGVyZSB0aGUgZmVhdHVyZSBiZWdpbnMgd2l0aCByZWZlcmVuY2UgdG8gdGhlIHJlYWRpbmcgZnJhbWUuIAogIC0gVGhlIHBoYXNlIGlzIG9uZSBvZiB0aGUgaW50ZWdlcnMgMCwgMSwgb3IgMiwgaW5kaWNhdGluZyB0aGUgbnVtYmVyIG9mIGJhc2VzIHRoYXQgc2hvdWxkIGJlIHJlbW92ZWQgZnJvbSB0aGUgYmVnaW5uaW5nIG9mIHRoaXMgZmVhdHVyZSB0byByZWFjaCB0aGUgZmlyc3QgYmFzZSBvZiB0aGUgbmV4dCBjb2Rvbi4KICAKLSA5CV9fYXR0cmlidXRlc19fOglBbGwgdGhlIG90aGVyIGluZm9ybWF0aW9uIHBlcnRhaW5pbmcgdG8gdGhpcyBmZWF0dXJlLiAKICAtIFRoZSBmb3JtYXQsIHN0cnVjdHVyZSBhbmQgY29udGVudCBvZiB0aGlzIGZpZWxkIGlzIHRoZSBvbmUgd2hpY2ggdmFyaWVzIHRoZSBtb3N0IGJldHdlZW4gdGhlIHRocmVlIGNvbXBldGluZyBmaWxlIGZvcm1hdHMuCgotLS0KCiMgV29yayB3aXRoIEdGRgoKYGBge3IsIGV2YWw9RkFMU0V9Cm5hbWVzKGdmZikgPC0gYygic2VxIiwgInNvdXJjZSIsICJmZWF0dXJlIiwgInN0YXJ0IiwgImVuZCIsICJzY29yZSIsICJzdHJhbmQiLCAicGhhc2UiLCAiYXR0IikKdGFibGUoZ2ZmJGZlYXR1cmUpCmBgYAoKIyMjIEdldCBnZW5lcyBhbmQgdXBzdHJlYW0gYW5kIGRvd25zdHJlYW0gNWtiIHJlZ2lvbnMKCmBgYHtyLCBldmFsPUZBTFNFfQpnIDwtIHN1YnNldChnZmYsIGZlYXR1cmUgJWluJSAiZ2VuZSIpCmckZ2VuZWlkIDwtIGdzdWIoIi4qZ2VuZTp8O2Jpb3R5cGUuKiIsICIiLCBnJGF0dCkKCiMjIyArIHN0cmFuZApncCA8LSBzdWJzZXQoZywgc3RyYW5kICVpbiUgIisiKSAKIyBucm93KGdwKSA3NQoKIyMjIGdldCB0aGUgNWsgdXBzdHJlYW0gb2YgdGhlICsgc3RyYW5kIGdlbmUgbW9kZWwKZ3BfdXAgPC0gZ3AKZ3BfdXAkZW5kIDwtIGdwX3VwJHN0YXJ0IC0gMQpncF91cCRzdGFydCA8LSBncF91cCRlbmQgLSA1MDAwIAoKIyMjIGdldCB0aGUgNWsgZG93bnN0cmVhbSBvZiB0aGUgKyBzdHJhbmQgZ2VuZSBtb2RlbApncF9kb3duIDwtIGdwCmdwX2Rvd24kc3RhcnQgPC0gZ3BfZG93biRlbmQgKyAxCmdwX2Rvd24kZW5kIDwtIGdwX2Rvd24kc3RhcnQgKyA1MDAwIApgYGAKCi0tLQoKCiMjIyBHZXQgZ2VuZXMgYW5kIHVwc3RyZWFtIGFuZCBkb3duc3RyZWFtIDVrYiByZWdpb25zCgpgYGB7ciBlY2hvPUZBTFNFLCBldmFsPUZBTFNFfQpnIDwtIHN1YnNldChnZmYsIGZlYXR1cmUgJWluJSAiZ2VuZSIpCmckZ2VuZWlkIDwtIGdzdWIoIi4qZ2VuZTp8O2Jpb3R5cGUuKiIsICIiLCBnJGF0dCkKCiMjIyAtIHN0cmFuZApnbSA8LSBzdWJzZXQoZywgc3RyYW5kICVpbiUgIi0iKSAKIyBucm93KGdtKSA4MgoKIyMjIGdldCB0aGUgNWsgdXBzdHJlYW0gb2YgdGhlICsgc3RyYW5kIGdlbmUgbW9kZWwKZ21fdXAgPC0gZ20KZ21fdXAkc3RhcnQgPC0gZ21fdXAkZW5kICsgMQpnbV91cCRlbmQgPC0gZ21fdXAkc3RhcnQgKyA1MDAwIAoKIyMjIGdldCB0aGUgNWsgZG93bnN0cmVhbSBvZiB0aGUgKyBzdHJhbmQgZ2VuZSBtb2RlbApnbV9kb3duIDwtIGdtCmdtX2Rvd24kZW5kIDwtIGdtX2Rvd24kc3RhcnQgLSAxCmdtX2Rvd24kc3RhcnQgPC0gZ21fZG93biRlbmQgLSA1MDAwIAoKZ3VwIDwtIHJiaW5kKGdwX3VwLCBnbV91cCkKZndyaXRlKGd1cCwgImNhY2hlL210X2dlbmVfdXA1ay50eHQiLCBzZXA9Ilx0Iiwgcm93Lm5hbWVzID0gRkFMU0UsIHF1b3RlPUZBTFNFKQoKZ2Rvd24gPC0gcmJpbmQoZ3BfZG93biwgZ21fZG93bikKZndyaXRlKGdkb3duLCAiY2FjaGUvbXRfZ2VuZV9kb3duNWsudHh0Iiwgc2VwPSJcdCIsIHJvdy5uYW1lcyA9IEZBTFNFLCBxdW90ZT1GQUxTRSkKYGBgCgoKYGBge3IsIGV2YWw9RkFMU0V9CiMjIyAtIHN0cmFuZApnbSA8LSBzdWJzZXQoZywgc3RyYW5kICVpbiUgIi0iKSAKZGltKGdtKSAjIDgyCgpmd3JpdGUoZywgImNhY2hlL210X2dlbmUudHh0Iiwgc2VwPSJcdCIsIHJvdy5uYW1lcyA9IEZBTFNFLCBxdW90ZT1GQUxTRSkKYGBgCgotLS0KCiMjIEludGVwcmV0IHRoZSB0aGV0YSByZXN1bHRzCgoKYGBge3IsIGV2YWw9RkFMU0V9CmxpYnJhcnkoImRhdGEudGFibGUiKQpsaWJyYXJ5KCJHZW5vbWljUmFuZ2VzIikKbGlicmFyeSgicGx5ciIpCgoKdGhldGEgPC0gZnJlYWQoImNhY2hlL3RoZXRhLnR4dCIsIGRhdGEudGFibGU9RkFMU0UpCm5hbWVzKHRoZXRhKVsxXSA8LSAic2VxIgoKdXA1ayA8LSByZWFkLnRhYmxlKCJjYWNoZS9tdF9nZW5lX3VwNWsudHh0IiwgaGVhZGVyPVRSVUUpCgojIyMgZGVmaW5lIHRoZSBzdWJqZWN0IGZpbGUgZm9yIHRoZXRhIHZhbHVlcwpncmMgPC0gd2l0aCh0aGV0YSwgR1JhbmdlcyhzZXFuYW1lcz1zZXEsIElSYW5nZXMoc3RhcnQ9UG9zLCBlbmQ9UG9zKSkpCgojIyMgZGVmaW5lIHRoZSBxdWVyeSBmaWxlIGZvciBnZW5vbWljIGZlYXR1cmUKZ3JmIDwtIHdpdGgodXA1aywgR1JhbmdlcyhzZXFuYW1lcz1zZXEsIElSYW5nZXMoc3RhcnQ9c3RhcnQsIGVuZD1lbmQpLCBnZW5laWQ9Z2VuZWlkKSkKICAgIAojIyMgZmluZCBvdmVybGFwcyBiZXR3ZWVuIHRoZSB0d28KdGIgPC0gZmluZE92ZXJsYXBzKHF1ZXJ5PWdyZiwgc3ViamVjdD1ncmMpCnRiIDwtIGFzLm1hdHJpeCh0YikKICAgIApvdXQxIDwtIGFzLmRhdGEuZnJhbWUoZ3JmW3RiWywxXV0pCm91dDIgPC0gYXMuZGF0YS5mcmFtZShncmNbdGJbLDJdXSkKIyMjIGZvciBlYWNoIGdlbm9taWMgZmVhdHVyZSwgZmluZCB0aGUgc2l0ZXMgd2l0aCBub24tbWlzc2luZyBkYXRhCm91dCA8LSBjYmluZChvdXQxLCBvdXQyWywgInN0YXJ0Il0pIApuYW1lcyhvdXQpW25jb2wob3V0KV0gPC0gInBvcyIKCgpgYGAKCi0tLQoKIyMgSW50ZXByZXQgdGhlIHRoZXRhIHJlc3VsdHMKCgpgYGB7ciwgZXZhbD1GQUxTRX0KI2RlZmluZSB1bmlxdWUgaWRlbnRpZmllciBhbmQgbWVyZ2Ugd2l0aCB0aGUgdGhldGFzCm91dCR1aWQgPC0gcGFzdGUob3V0JHNlcW5hbWVzLCBvdXQkcG9zLCBzZXA9Il8iKQp0aGV0YSR1aWQgPC0gcGFzdGUodGhldGEkc2VxLCB0aGV0YSRQb3MsIHNlcD0iXyIpCgpkZiA8LSBtZXJnZShvdXQsIHRoZXRhWywgYygtMSwgLTIpXSwgYnk9InVpZCIpCiMgZm9yIGVhY2ggdXBzdHJlYW0gNWsgcmVnaW9uLCBob3cgbWFueSB0aGV0YSB2YWx1ZXMKCm14IDwtIGRkcGx5KGRmLCAuKGdlbmVpZCksIHN1bW1hcmlzZSwKICAgICAgICAgICAgUGFpcndpc2UgPSBtZWFuKFBhaXJ3aXNlLCBuYS5ybT1UUlVFKSwKICAgICAgICAgICAgdGhldGFIID0gbWVhbih0aGV0YUgsIG5hLnJtPVRSVUUpLAogICAgICAgICAgICBuc2l0ZXMgPSBsZW5ndGgodWlkKSkKCmBgYAoKLS0tCgojIyBJbnRlcHJldCB0aGUgdGhldGEgcmVzdWx0cwoKQ29weSBhbmQgcGFzdGUgZXZlcnl0aGluZyBhYm92ZSwgYW5kIHBhY2sgaXQgaW50byBhbiBgUmAgZnVuY3Rpb246CgpgYGB7ciwgZXZhbD1GQUxTRX0KZ2V0X21lYW5fdGhldGEgPC0gZnVuY3Rpb24oZ2ZfZmlsZT0iY2FjaGUvbXRfZ2VuZV91cDVrLnR4dCIpewogICMgZ2ZfZmlsZTogZ2VuZSBmZWF0dXJlIGZpbGUgW2NociwgPSJjYWNoZS9tdF9nZW5lX3VwNWsudHh0Il0KICAKICB0aGV0YSA8LSBmcmVhZCgiY2FjaGUvdGhldGEudHh0IiwgZGF0YS50YWJsZT1GQUxTRSkKICBuYW1lcyh0aGV0YSlbMV0gPC0gInNlcSIKCiAgdXA1ayA8LSByZWFkLnRhYmxlKGdmX2ZpbGUsIGhlYWRlcj1UUlVFKQoKICAjIyMgZGVmaW5lIHRoZSBzdWJqZWN0IGZpbGUgZm9yIHRoZXRhIHZhbHVlcwogIGdyYyA8LSB3aXRoKHRoZXRhLCBHUmFuZ2VzKHNlcW5hbWVzPXNlcSwgSVJhbmdlcyhzdGFydD1Qb3MsIGVuZD1Qb3MpKSkKCiAgIyMjIGRlZmluZSB0aGUgcXVlcnkgZmlsZSBmb3IgZ2Vub21pYyBmZWF0dXJlCiAgZ3JmIDwtIHdpdGgodXA1aywgR1JhbmdlcyhzZXFuYW1lcz1zZXEsIElSYW5nZXMoc3RhcnQ9c3RhcnQsIGVuZD1lbmQpLCBnZW5laWQ9Z2VuZWlkKSkKICAgIAogICMjIyBmaW5kIG92ZXJsYXBzIGJldHdlZW4gdGhlIHR3bwogIHRiIDwtIGZpbmRPdmVybGFwcyhxdWVyeT1ncmYsIHN1YmplY3Q9Z3JjKQogIHRiIDwtIGFzLm1hdHJpeCh0YikKICAgIAogIG91dDEgPC0gYXMuZGF0YS5mcmFtZShncmZbdGJbLDFdXSkKICBvdXQyIDwtIGFzLmRhdGEuZnJhbWUoZ3JjW3RiWywyXV0pCiAgIyMjIGZvciBlYWNoIGdlbm9taWMgZmVhdHVyZSwgZmluZCB0aGUgc2l0ZXMgd2l0aCBub24tbWlzc2luZyBkYXRhCiAgb3V0IDwtIGNiaW5kKG91dDEsIG91dDJbLCAic3RhcnQiXSkgCiAgbmFtZXMob3V0KVtuY29sKG91dCldIDwtICJwb3MiCgogICNkZWZpbmUgdW5pcXVlIGlkZW50aWZpZXIgYW5kIG1lcmdlIHdpdGggdGhlIHRoZXRhcwogIG91dCR1aWQgPC0gcGFzdGUob3V0JHNlcW5hbWVzLCBvdXQkcG9zLCBzZXA9Il8iKQogIHRoZXRhJHVpZCA8LSBwYXN0ZSh0aGV0YSRzZXEsIHRoZXRhJFBvcywgc2VwPSJfIikKCiAgZGYgPC0gbWVyZ2Uob3V0LCB0aGV0YVssIGMoLTEsIC0yKV0sIGJ5PSJ1aWQiKQogICMgZm9yIGVhY2ggdXBzdHJlYW0gNWsgcmVnaW9uLCBob3cgbWFueSB0aGV0YSB2YWx1ZXMKCiAgbXggPC0gZGRwbHkoZGYsIC4oZ2VuZWlkKSwgc3VtbWFyaXNlLAogICAgICAgICAgICBQYWlyd2lzZSA9IG1lYW4oUGFpcndpc2UsIG5hLnJtPVRSVUUpLAogICAgICAgICAgICB0aGV0YUggPSBtZWFuKHRoZXRhSCwgbmEucm09VFJVRSksCiAgICAgICAgICAgIG5zaXRlcyA9IGxlbmd0aCh1aWQpKQogIHJldHVybihteCkKfQpgYGAKCi0tLQoKIyMgUGxvdCB0aGUgcmVzdWx0cwoKUnVuIHRoZSBjdXN0b21pemVkIFIgZnVuY3Rpb24KCmBgYHtyLCBldmFsPUZBTFNFfQojIyMgYXBwbHkgdGhlIGZ1bmN0aW9uCnVwNWsgPC0gZ2V0X21lYW5fdGhldGEoZ2ZfZmlsZT0iY2FjaGUvbXRfZ2VuZV91cDVrLnR4dCIpCmRvd241ayA8LSBnZXRfbWVhbl90aGV0YShnZl9maWxlPSJjYWNoZS9tdF9nZW5lX2Rvd241ay50eHQiKQoKYGBgCgpBbmQgdGhlbiBwbG90IHRoZSByZXN1bHRzOgoKYGBge3IsIGV2YWw9RkFMU0V9CmxpYnJhcnkoImdncGxvdDIiKQoKdXA1ayRmZWF0dXJlIDwtICJ1cCA1ayIKZG93bjVrJGZlYXR1cmUgPC0gImRvd24gNWsiCnJlcyA8LSByYmluZCh1cDVrLCBkb3duNWspCgpnZ3Bsb3QocmVzLCBhZXMoeD1mZWF0dXJlLCB5PVBhaXJ3aXNlLCBmaWxsPWZlYXR1cmUpKSArIAogIGdlb21fdmlvbGluKHRyaW09RkFMU0UpKwogIGxhYnModGl0bGU9IlRoZXRhIHZhbHVlIiwgeD0iIiwgeSA9ICJMb2cxMCAodGhldGEpIikrCiAgZ2VvbV9ib3hwbG90KHdpZHRoPTAuMSwgZmlsbD0id2hpdGUiKSsKICBzY2FsZV9maWxsX2JyZXdlcihwYWxldHRlPSJCbHVlcyIpICsgCiAgdGhlbWVfY2xhc3NpYygpCgpgYGA=</div>
 
 
 
