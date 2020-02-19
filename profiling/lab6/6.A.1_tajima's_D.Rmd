@@ -1,0 +1,465 @@
+---
+title: "Breaking down into genomic features"
+author: "Jinliang Yang"
+date: "Feb. 20th, 2020"
+output: NULL
+---
+
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+```
+
+# Jump command
+
+When you login `crane` via ssh, `.bash_profile` is executed to configure your shell before the initial command prompt. 
+
+Add the below code to your `.bash_profile`
+
+--
+
+```{bash, eval=FALSE}
+export MARKPATH=$HOME/.marks
+function jump {
+    cd -P "$MARKPATH/$1" 2>/dev/null || echo "No such mark: $1"
+}
+function mark {
+    mkdir -p "$MARKPATH"; ln -s "$(pwd)" "$MARKPATH/$1"
+}
+function unmark {
+    rm -i "$MARKPATH/$1"
+}
+function marks {
+    ls -l "$MARKPATH" | sed 's/  / /g' | cut -d' ' -f9- | sed 's/ -/\t-/g' && echo
+}
+
+_completemarks() {
+  local curw=${COMP_WORDS[COMP_CWORD]}
+  local wordlist=$(find $MARKPATH -type l -printf "%f\n")
+  COMPREPLY=($(compgen -W '${wordlist[@]}' -- "$curw"))
+  return 0
+}
+
+complete -F _completemarks jump unmark
+```
+
+---
+# Jump with symbolic links
+
+
+### mark
+
+To add a new bookmark (or a symbolic link), you `cd` into the directory and `mark` it with a name to your liking:
+
+```{bash, eval=FALSE}
+cd ~/projects/agro932-lab
+mark agro932
+```
+
+### jump
+
+Once you add a symbolic link, you can `jump` to this directory by typing
+
+```{bash, eval=FALSE}
+jump agro932
+``` 
+
+---
+# Jump with symbolic links
+
+### unmark
+
+To remove the bookmark (i.e., the symbolic link)
+
+```{bash, eval=FALSE}
+unmark agro932
+``` 
+
+### marks
+
+you can view all marks by typing:
+
+```{bash, eval=FALSE}
+marks
+``` 
+
+---
+
+# Tajima's D and Neutrality test
+
+Its a 3 step procedure using `ANGSD`:
+
+- Step 1. Estimate an site frequency spectrum.
+- Step 2. Calculate per-site thetas.
+
+
+- __Step 3. Calculate neutrality test statistics.__
+
+---
+
+# Tajima's D and Neutrality test
+
+Its a 3 step procedure using `ANGSD`:
+
+- Step 1. Estimate an site frequency spectrum.
+
+```{bash, eval=FALSE}
+angsd -bam bam.txt -doSaf 1 -anc ../Zea_mays.B73_RefGen_v4.dna.chromosome.Mt.fa -GL 1  -out out 
+# use realSFS to calculate sfs
+realSFS out.saf.idx > out.sfs
+```
+
+- Step 2. Calculate per-site thetas.
+
+
+```{bash, eval=FALSE}
+angsd -bam bam.txt -out out -doThetas 1 -doSaf 1 -pest out.sfs -anc ../Zea_mays.B73_RefGen_v4.dna.chromosome.Mt.fa -GL 1
+thetaStat print out.thetas.idx > theta.txt
+```
+
+- __Step 3. Calculate neutrality test statistics.__
+
+
+```{bash, eval=FALSE}
+#calculate Tajimas D
+thetaStat do_stat out.thetas.idx -win 5000 -step 1000  -outnames thetasWindow
+cp thetasWindow.pestPG ../../../cache/
+```
+
+This will calculate the test statistic using a __window size of 5-kb__ and a __step size of 1-kb__.
+
+---
+
+# Visualize the results
+
+```{r}
+library("data.table")
+t <- fread("cache/thetasWindow.pestPG", header=TRUE, data.table=FALSE)
+```
+
+
+
+
+---
+
+# General feature format (GFF) from EnsemblPlants
+
+Maize [reference genome](https://plants.ensembl.org/Zea_mays/Info/Index)
+
+change to `largedata\lab4` folder:
+
+```{bash, eval=FALSE}
+wget ftp://ftp.ensemblgenomes.org/pub/plants/release-46/fasta/zea_mays/dna/Zea_mays.B73_RefGen_v4.dna.chromosome.Mt.fa.gz
+
+### then unzip it
+gunzip Zea_mays.B73_RefGen_v4.dna.chromosome.Mt.fa.gz
+```
+
+Similarly, we will download and unzip the [Mt GFF3](ftp://ftp.ensemblgenomes.org/pub/plants/release-46/gff3/zea_mays/Zea_mays.B73_RefGen_v4.46.chromosome.Mt.gff3.gz) file
+
+--
+
+#### Use R to process the GFF3 file
+
+```{r, eval=FALSE}
+# install.package("data.table")
+library("data.table")
+
+## simply read in wouldn't work
+gff <- fread("largedata/lab4/Zea_mays.B73_RefGen_v4.46.chromosome.Mt.gff3", skip="#", header=FALSE, data.table=FALSE)
+
+## grep -v means select lines that not matching any of the specified patterns
+gff <- fread(cmd='grep -v "#" largedata/lab4/Zea_mays.B73_RefGen_v4.46.chromosome.Mt.gff3', header=FALSE, data.table=FALSE)
+```
+
+---
+
+# General feature format (GFF) version 3
+
+```
+  V1      V2         V3   V4     V5 V6 V7 V8
+1 Mt Gramene chromosome    1 569630  .  .  .
+2 Mt ensembl       gene 6391   6738  .  +  .
+3 Mt    NCBI       mRNA 6391   6738  .  +  .
+4 Mt    NCBI       exon 6391   6738  .  +  .
+5 Mt    NCBI        CDS 6391   6738  .  +  0
+6 Mt ensembl       gene 6951   8285  .  +  .
+                  V9
+1   ID=chromosome:Mt;Alias=AY506529.1,NC_007982.1;Is_circular=true
+2   ID=gene:ZeamMp002;biotype=protein_coding;description=orf115-a1;
+3   ID=transcript:ZeamMp002;Parent=gene:ZeamMp002;
+4   Parent=transcript:ZeamMp002;Name=ZeamMp002.exon1;constitutive=1;ensembl_end_phase=0;
+5   ID=CDS:ZeamMp002;Parent=transcript:ZeamMp002;
+6   ID=gene:ZeamMp003;biotype=protein_coding;description=orf444
+```
+
+---
+
+# General feature format (GFF) version 3
+
+```
+  V1      V2         V3   V4     V5 V6 V7 V8
+1 Mt Gramene chromosome    1 569630  .  .  .
+2 Mt ensembl       gene 6391   6738  .  +  .
+                  V9
+1   ID=chromosome:Mt;Alias=AY506529.1,NC_007982.1;Is_circular=true
+2   ID=gene:ZeamMp002;biotype=protein_coding;description=orf115-a1;
+```
+--------------
+
+- 1	__sequence__:	The name of the sequence where the feature is located.
+
+- 2	__source__:	Keyword identifying the source of the feature, like a program (e.g. RepeatMasker) or an organization (like ensembl).
+
+- 3	__feature__:	The feature type name, like "gene" or "exon". 
+  - In a well structured GFF file, all the children features always follow their parents in a single block (so all exons of a transcript are put after their parent "transcript" feature line and before any other parent transcript line).
+  
+- 4	__start__:	Genomic start of the feature, with a 1-base offset. 
+  - This is in contrast with other 0-offset half-open sequence formats, like [BED]().
+  
+
+---
+# General feature format (GFF) version 3
+
+```
+  V1      V2         V3   V4     V5 V6 V7 V8
+1 Mt Gramene chromosome    1 569630  .  .  .
+2 Mt ensembl       gene 6391   6738  .  +  .
+                  V9
+1   ID=chromosome:Mt;Alias=AY506529.1,NC_007982.1;Is_circular=true
+2   ID=gene:ZeamMp002;biotype=protein_coding;description=orf115-a1;
+```
+
+--------------
+
+- 5	__end__:	Genomic end of the feature, with a 1-base offset. 
+  - This is the same end coordinate as it is in 0-offset half-open sequence formats, like BED.
+
+- 6	__score__:	Numeric value that generally indicates the confidence of the source in the annotated feature. 
+  - A value of "." (a dot) is used to define a null value.
+  
+- 7	__strand__:	Single character that indicates the strand of the feature. 
+  - it can assume the values of "+" (positive, or 5' -> 3'), 
+  - "-", (negative, or 3' -> 5'), "." (undetermined).
+
+---
+# General feature format (GFF) version 3
+
+```
+  V1      V2         V3   V4     V5 V6 V7 V8
+1 Mt Gramene chromosome    1 569630  .  .  .
+2 Mt ensembl       gene 6391   6738  .  +  .
+                  V9
+1   ID=chromosome:Mt;Alias=AY506529.1,NC_007982.1;Is_circular=true
+2   ID=gene:ZeamMp002;biotype=protein_coding;description=orf115-a1;
+```
+
+--------------
+
+- 8	__phase__:	phase of CDS (__means CoDing Sequence__) features. 
+  - The phase indicates where the feature begins with reference to the reading frame. 
+  - The phase is one of the integers 0, 1, or 2, indicating the number of bases that should be removed from the beginning of this feature to reach the first base of the next codon.
+  
+- 9	__attributes__:	All the other information pertaining to this feature. 
+  - The format, structure and content of this field is the one which varies the most between the three competing file formats.
+
+---
+
+# Work with GFF
+
+```{r, eval=FALSE}
+names(gff) <- c("seq", "source", "feature", "start", "end", "score", "strand", "phase", "att")
+table(gff$feature)
+```
+
+### Get genes and upstream and downstream 5kb regions
+
+```{r, eval=FALSE}
+g <- subset(gff, feature %in% "gene")
+g$geneid <- gsub(".*gene:|;biotype.*", "", g$att)
+
+### + strand
+gp <- subset(g, strand %in% "+") 
+# nrow(gp) 75
+
+### get the 5k upstream of the + strand gene model
+gp_up <- gp
+gp_up$end <- gp_up$start - 1
+gp_up$start <- gp_up$end - 5000 
+
+### get the 5k downstream of the + strand gene model
+gp_down <- gp
+gp_down$start <- gp_down$end + 1
+gp_down$end <- gp_down$start + 5000 
+```
+
+---
+
+
+### Get genes and upstream and downstream 5kb regions
+
+```{r echo=FALSE, eval=FALSE}
+g <- subset(gff, feature %in% "gene")
+g$geneid <- gsub(".*gene:|;biotype.*", "", g$att)
+
+### - strand
+gm <- subset(g, strand %in% "-") 
+# nrow(gm) 82
+
+### get the 5k upstream of the + strand gene model
+gm_up <- gm
+gm_up$start <- gm_up$end + 1
+gm_up$end <- gm_up$start + 5000 
+
+### get the 5k downstream of the + strand gene model
+gm_down <- gm
+gm_down$end <- gm_down$start - 1
+gm_down$start <- gm_down$end - 5000 
+
+gup <- rbind(gp_up, gm_up)
+fwrite(gup, "cache/mt_gene_up5k.txt", sep="\t", row.names = FALSE, quote=FALSE)
+
+gdown <- rbind(gp_down, gm_down)
+fwrite(gdown, "cache/mt_gene_down5k.txt", sep="\t", row.names = FALSE, quote=FALSE)
+```
+
+
+```{r, eval=FALSE}
+### - strand
+gm <- subset(g, strand %in% "-") 
+dim(gm) # 82
+
+fwrite(g, "cache/mt_gene.txt", sep="\t", row.names = FALSE, quote=FALSE)
+```
+
+---
+
+## Intepret the theta results
+
+
+```{r, eval=FALSE}
+library("data.table")
+library("GenomicRanges")
+library("plyr")
+
+
+theta <- fread("cache/theta.txt", data.table=FALSE)
+names(theta)[1] <- "seq"
+
+up5k <- read.table("cache/mt_gene_up5k.txt", header=TRUE)
+
+### define the subject file for theta values
+grc <- with(theta, GRanges(seqnames=seq, IRanges(start=Pos, end=Pos)))
+
+### define the query file for genomic feature
+grf <- with(up5k, GRanges(seqnames=seq, IRanges(start=start, end=end), geneid=geneid))
+    
+### find overlaps between the two
+tb <- findOverlaps(query=grf, subject=grc)
+tb <- as.matrix(tb)
+    
+out1 <- as.data.frame(grf[tb[,1]])
+out2 <- as.data.frame(grc[tb[,2]])
+### for each genomic feature, find the sites with non-missing data
+out <- cbind(out1, out2[, "start"]) 
+names(out)[ncol(out)] <- "pos"
+
+
+```
+
+---
+
+## Intepret the theta results
+
+
+```{r, eval=FALSE}
+#define unique identifier and merge with the thetas
+out$uid <- paste(out$seqnames, out$pos, sep="_")
+theta$uid <- paste(theta$seq, theta$Pos, sep="_")
+
+df <- merge(out, theta[, c(-1, -2)], by="uid")
+# for each upstream 5k region, how many theta values
+
+mx <- ddply(df, .(geneid), summarise,
+            Pairwise = mean(Pairwise, na.rm=TRUE),
+            thetaH = mean(thetaH, na.rm=TRUE),
+            nsites = length(uid))
+
+```
+
+---
+
+## Intepret the theta results
+
+Copy and paste everything above, and pack it into an `R` function:
+
+```{r, eval=FALSE}
+get_mean_theta <- function(gf_file="cache/mt_gene_up5k.txt"){
+  # gf_file: gene feature file [chr, ="cache/mt_gene_up5k.txt"]
+  
+  theta <- fread("cache/theta.txt", data.table=FALSE)
+  names(theta)[1] <- "seq"
+
+  up5k <- read.table(gf_file, header=TRUE)
+
+  ### define the subject file for theta values
+  grc <- with(theta, GRanges(seqnames=seq, IRanges(start=Pos, end=Pos)))
+
+  ### define the query file for genomic feature
+  grf <- with(up5k, GRanges(seqnames=seq, IRanges(start=start, end=end), geneid=geneid))
+    
+  ### find overlaps between the two
+  tb <- findOverlaps(query=grf, subject=grc)
+  tb <- as.matrix(tb)
+    
+  out1 <- as.data.frame(grf[tb[,1]])
+  out2 <- as.data.frame(grc[tb[,2]])
+  ### for each genomic feature, find the sites with non-missing data
+  out <- cbind(out1, out2[, "start"]) 
+  names(out)[ncol(out)] <- "pos"
+
+  #define unique identifier and merge with the thetas
+  out$uid <- paste(out$seqnames, out$pos, sep="_")
+  theta$uid <- paste(theta$seq, theta$Pos, sep="_")
+
+  df <- merge(out, theta[, c(-1, -2)], by="uid")
+  # for each upstream 5k region, how many theta values
+
+  mx <- ddply(df, .(geneid), summarise,
+            Pairwise = mean(Pairwise, na.rm=TRUE),
+            thetaH = mean(thetaH, na.rm=TRUE),
+            nsites = length(uid))
+  return(mx)
+}
+```
+
+---
+
+## Plot the results
+
+Run the customized R function
+
+```{r, eval=FALSE}
+### apply the function
+up5k <- get_mean_theta(gf_file="cache/mt_gene_up5k.txt")
+down5k <- get_mean_theta(gf_file="cache/mt_gene_down5k.txt")
+
+```
+
+And then plot the results:
+
+```{r, eval=FALSE}
+library("ggplot2")
+
+up5k$feature <- "up 5k"
+down5k$feature <- "down 5k"
+res <- rbind(up5k, down5k)
+
+ggplot(res, aes(x=feature, y=Pairwise, fill=feature)) + 
+  geom_violin(trim=FALSE)+
+  labs(title="Theta value", x="", y = "Log10 (theta)")+
+  geom_boxplot(width=0.1, fill="white")+
+  scale_fill_brewer(palette="Blues") + 
+  theme_classic()
+
+```
