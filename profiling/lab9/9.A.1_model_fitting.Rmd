@@ -50,6 +50,7 @@ f$INBRED <- as.factor(f$INBRED)
 f$Env <- as.factor(f$Env)
 # tricky part, be careful:
 f$TotKnlWt_Inbred  <- as.numeric(as.character((f$TotKnlWt_Inbred)))
+
 fit <- lm(TotKnlWt_Inbred ~ INBRED + Env, data=f)
 anova(fit)
 ```
@@ -67,4 +68,28 @@ H2 = Vg/(Vg + Ve)
 H2
 ```
 
+### Cob Dia
+```{r}
+f <- read.delim("data/journal.pone.0007433.s001.txt", header=TRUE)
+# Convert missing data to NA
+f[f=="."] <- NA
 
+# four environments
+table(f$Env)
+
+f$INBRED <- as.factor(f$INBRED)
+f$Env <- as.factor(f$Env)
+# tricky part, be careful:
+f$CobDia_Inbred  <- as.numeric(as.character((f$CobDia_Inbred)))
+
+fit <- lm(CobDia_Inbred ~ INBRED + Env + INBRED*Env, data=f)
+anova(fit)
+```
+```{r}
+Vg =  (22.108 - 4.063)/4
+Ve = 0
+Vge = 4.063
+
+H2 = Vg/(Vg + Ve + Vge)
+H2
+```
