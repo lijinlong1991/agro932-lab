@@ -1,0 +1,129 @@
+---
+title: "GWAS practice"
+author: "Jinliang Yang"
+date: "April 16th, 2020"
+output: NULL
+---
+
+
+## Normalize the path:
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE) 
+knitr::opts_knit$set(root.dir=normalizePath('../../')) 
+```
+
+
+## Geographic distribution
+
+
+```{r}
+### read in the data from step one
+df <- read.csv("data/RiceDiversity.44K.germplasm.csv")
+df$Latitude <- as.numeric(as.character(df$Latitude))
+range(df$Latitude, na.rm = T)
+df$Longitude <- as.numeric(as.character(df$Longitude))
+range(df$Longitude, na.rm = T)
+
+
+```
+
+
+```{r}
+######################################################################################
+library(ggmap)
+##lowerleftlon, lowerleftlat, upperrightlon, upperrightlat
+#  or left/bottom/right/top bounding box
+# myloc <- c(-150, -50, 0, 80)
+myloc <- c(-105, -40, 170, 56)
+
+
+cols <- brewer.pal(5,"RdBu")
+
+mymap <- get_map(location=myloc, source="stamen", crop=FALSE, color="bw")
+ggmap(mymap) + 
+    geom_point(aes(x = Longitude, y = Latitude), data = df,
+               alpha = .9, size = 1, col="red")
+  #geom_point(aes(x = -100.21, y = 18.41), color="red", size = 8, shape=17)
+
+```
+
+### Count by country
+
+```{r}
+library(plyr)
+c <- ddply(df, .(Country.of.origin), nrow)
+c <- subset(c, Country.of.origin != "")
+df2 <- merge(c, df[, c("Country.of.origin",  "Latitude", "Longitude")], by="Country.of.origin")
+
+mymap <- get_map(location=myloc, source="stamen", crop=FALSE, color="bw")
+ggmap(mymap) + 
+    geom_point(aes(x = Longitude, y = Latitude), data = df2,
+               alpha = .9, size = df2$V1/10, col="red")
+```
+
+---
+
+# Genotype and Phenotype data
+
+### PLINK format
+
+```{r}
+install.packages("BGLR")
+library("BGLR")
+ped <- read_ped("data/RiceDiversity_44K_Genotypes_PLINK/sativas413.ped") 
+```
+
+```{r}
+p=ped$p
+n=ped$n
+out=ped$x
+#Recode snp to 0,1,2 format using allele 1
+# 0 --> 0
+# 1 --> 1
+# 2 --> NA
+# 3 --> 2
+out[out==2]=NA
+out[out==3]=2
+W <- matrix(out, nrow=p, ncol=n, byrow=TRUE)
+W <- t(W) 
+dim(W) # # 413 x 36901
+```
+
+---
+# Read fam file
+
+```{r}
+# accession ID
+fam <-read.table("data/RiceDiversity_44K_Genotypes_PLINK/sativas413.fam", header = FALSE, stringsAsFactors = FALSE)  
+head(fam)
+rownames(W) <- paste0("NSFTV_", fam$V2) # 413 x 36901
+```
+
+---
+# Phenotype data
+
+```{r}
+pheno <- read.delim("http://ricediversity.org/data/sets/44kgwas/RiceDiversity_44K_Phenotypes_34traits_PLINK.txt", header=TRUE)
+
+library(ggplot2)
+ggplot(pheno, aes(x=Plant.height)) + 
+  geom_histogram(aes(y=..density..), bins=50, fill="#999999")+
+  geom_density(alpha=.2, fill="#FF6666") +
+  labs(title="Phenotype histogram plot",x="Plant Height", y = "Density")+
+  theme_classic()
+```
+
+
+---
+
+# Population Structure
+
+```{bash}
+
+```
+
+
+
+
+
