@@ -1,0 +1,280 @@
+---
+title: "HW3 Key"
+author: "Jinliang Yang"
+date: "April 21th, 2020"
+output: NULL
+---
+
+
+## Normalize the path:
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE) 
+knitr::opts_knit$set(root.dir=normalizePath('../../')) 
+```
+
+
+# A real world example: Loblolly pine data
+
+Loblolly pine (Pinus taeda) data
+>Resende Jr. et al. (2012) ([DOI: 10.1534/genetics.111.137026](http://dx.doi.org/10.1534/genetics.111.137026))
+
+
+- __Mating Design__: 70 full-sib familes and 951 individuals in total using _a circular mating design_
+- __Phenotyping__: 17 traits with distinct heritabilities and genetic architectures
+- __Genotyping__: with 4,853 SNPs using the SNP array method. 
+- Data can be downloaded from [zip](http://www.genetics.org/highwire/filestream/412827/field_highwire_adjunct_files/7/Loblolly_Pine_Resende_.zip) file. 
+
+In this example, we will use the breeding values of crown width across the planting beds at age 6 (CWAC6). 
+
+```{r, eval=FALSE}
+# read phenotype and SNP files
+pheno_file <- "data/Loblolly_Pine/Phenotypic_Data/DATA_rootnum_age10_rootnum.csv"
+geno_file <- "https://jyanglab.com/img/data/Snp_Data.csv"
+
+pheno <- read.csv(pheno_file, header=TRUE, stringsAsFactors = FALSE)
+# hist(pheno$Derregressed_BV)
+geno <- read.csv(geno_file, header=TRUE, stringsAsFactors = FALSE)
+dim(geno)
+# geno[1:10, 1:10]
+```
+
+---
+# Loblolly pine data
+
+> The following code borrowed from Dr. Gota Morota with some modifications.
+
+### Remove missing phenotypes 
+
+There are some accessions containing no phenotype. We need to remove these accessions first.
+
+```{r, eval=FALSE}
+na.index <-  which(is.na(pheno$Derregressed_BV))
+# length(na.index)
+pheno <- pheno[-na.index, ]
+# Keep genotypes for these remaining lines
+geno <- geno[geno$Genotype %in% pheno$Genotype, ]
+
+# phenotypes 
+y <- pheno$Derregressed_BV
+y <- matrix(y, ncol=1)
+
+# markers 
+geno <- geno[,-1] # 861 x 4853
+geno[geno == -9] <- NA
+```
+
+
+---
+# SNP quality control
+
+In the `geno` matrix, row indicates individual, column indicates SNPs.
+
+### Missingness and MAF
+
+```{r, eval=FALSE, echo=TRUE}
+# missing rate
+missing <- apply(geno, 2, function(x){sum(is.na(x))/length(x)})
+# minor allele frequency
+maf <- apply(geno, 2, function(x){
+  frq <- mean(x, na.rm=TRUE)/2 # 1 allele
+  return(ifelse(frq > 0.5, 1-frq, frq))
+})
+```
+
+--
+
+#### Plot the results
+```{r, eval=FALSE, echo=TRUE}
+hist(missing, breaks=100, col="blue", xlab="SNP Missing rate")
+hist(maf, breaks=100, col="blue", xlab="Minor Allele Freq")
+```
+
+---
+# SNP quality control
+
+Removing SNPs with high missing rate (missingness > 0.2) and low MAF (MAF < 0.05)
+
+- Question: How many markers are removed?
+
+```{r, eval=FALSE, echo=TRUE}
+idx1 <- which(missing > 0.2) #154
+idx2 <- which(maf < 0.05) #1647
+idx <- unique(c(idx1, idx2)) #1784
+
+geno2 <- geno[, -idx]
+dim(geno2)
+```
+
+
+--
+
+### Missing marker imputation
+
+Replace missing marker genotypes with __mean values__. Then store the marker genotypes in a matrix object `Z`. 
+
+```{r, eval=FALSE, echo=TRUE}
+Z <- matrix(0, ncol=ncol(geno2), nrow=nrow(geno2))
+for (j in 1:ncol(geno2)){
+  #cat("j = ", j, '\n')
+  Z[,j] <- ifelse(is.na(geno2[,j]), mean(geno2[,j], na.rm=TRUE), geno2[,j])
+}
+# sum(is.na(Z))
+write.table(Z, "cache/Z.txt", sep="\t", row.names = FALSE, col.names=FALSE, quote=FALSE)
+```
+
+---
+
+# Genomic relationship
+
+### SNP Matrix standardization
+
+Standardize the genotype matrix to have a mean of zero and variance of one. Save this matrix as `Zs`. 
+
+```{r, eval=FALSE, echo=TRUE}
+Zs <- scale(Z, center = TRUE, scale = TRUE)
+# dimensions 
+n <- nrow(Zs)
+m <- ncol(Zs)
+```
+
+
+
+---
+
+# K-fold validation
+
+
+```{r}
+kfold <- function(num=101, k=10){
+  # num: num of samples 
+  # k: number of fold
+  
+  #Create 10 equally size folds
+  folds <- cut(1:num, breaks=k, labels=FALSE)
+  # Randomly shuffle the index of the data
+  idx <- sample(num, replace=FALSE)
+  out <- data.frame(idx=idx, folds=folds)
+  return(out)
+}
+```
+
+
+Repeat GBLUP but treat the first 600 individuals as a training set and predict the additive genetic values of the remaining individuals in the testing set. 
+- What is the predictive correlation in the testing set? Use $\lambda = 1.348411$. 
+
+```{r, eval=FALSE, echo=TRUE}
+# prediction function using GBLUP and RRBLUP approaches
+pred <- function(y, Zs, trn, tst, lambda=4){
+  # y: a vector of the phenotype
+  # Zs: a matrix of the standardized genoytpe
+  # trn: idx for training individuals
+  # tst: idx for testing individuals
+  # lambda <- 4 # fit$Ve / fit$Vu
+  
+  y.trn <- y[trn]
+  y.tst <- y[tst]
+  Zs.trn <- Zs[trn,]
+  Zs.tst <- Zs[tst,]
+  n.trn <- length(y.trn)
+
+  Gtrn <- tcrossprod(Zs.trn) / ncol(Zs.trn)
+  Gtrn <- Gtrn + diag(n.trn)*0.001
+  Gtst.trn <- tcrossprod(Zs.tst, Zs.trn) / ncol(Zs.tst)
+
+  Ginv.trn <- solve(Gtrn)
+  ones <- matrix(1, ncol=1, nrow=n.trn)
+  Z <- diag(n.trn)
+  LHS1 <- cbind(crossprod(ones), crossprod(ones, Z)) 
+  LHS2 <- cbind(crossprod(Z, ones), crossprod(Z) +  Ginv.trn*lambda)
+  LHS <- rbind(LHS1, LHS2)
+  RHS <- rbind( crossprod(ones, y.trn), crossprod(Z,y.trn) )
+  sol.trn <- solve(LHS, RHS)
+
+  # prediction
+  y.hat <- Gtst.trn %*% Ginv.trn %*% matrix(sol.trn[c(2:(n.trn+1))])
+  out1 <- cor(y.hat, y.tst)
+  
+  ones <- matrix(1, ncol=1, nrow=n.trn)
+  I <- diag(ncol(Zs))
+  LHS1 <- cbind(crossprod(ones), crossprod(ones, Zs.trn)) 
+  LHS2 <- cbind(crossprod(Zs.trn, ones), crossprod(Zs.trn) +  I*lambda)
+  LHS <- rbind(LHS1, LHS2)
+  RHS <- rbind( crossprod(ones, y.trn), crossprod(Zs.trn, y.trn) )
+  sol.trn <- solve(LHS, RHS)
+
+  # prediction
+  y.hat2 <- Zs.tst %*% matrix(sol.trn[-1])
+  out2 <- cor(y.hat2, y.tst)
+  
+  return(data.frame(gblup=out1, rrblup=out2))
+}
+
+cv <- function(y, Zs, df, k=10){
+  # pred(y, Zs, trn=df[df$folds !=1, ]$idx, tst=df[df$folds ==1, ]$idx, lambda=4)
+  out1 <- data.frame()
+  for(i in 1:k){
+    tem <- pred(y, Zs, trn=df[df$folds !=i, ]$idx, tst=df[df$folds ==i, ]$idx, lambda=4)
+    out1 <- rbind(out1, tem)
+  }
+  out2 <- data.frame(gblup=mean(out1$gblup), rrblup=mean(out1$rrblup))
+  return(out2)
+}
+
+
+run_cv <- function(y, Zs, n=20, k=10, random.seed=1234){
+  res <- data.frame()
+  for(j in 1:n){
+    set.seed(random.seed+j)
+    message(sprintf("###>>> running the [ %s ]th shuffling for [ %s fold ] cross-validation ...", j, k))
+    # apply the kfold function to divide data into k-fold
+    df <- kfold(num=length(y), k)
+  
+    tem <- cv(y, Zs, df, k)
+    res <- rbind(res, tem)
+  }
+  return(res)
+}
+
+
+```
+
+
+# Finally, we run the cross-validation procedure
+
+```{r}
+# read phenotype and SNP files
+pheno_file <- "data/Loblolly_Pine/Phenotypic_Data/DATA_rootnum_age10_rootnum.csv"
+pheno <- read.csv(pheno_file, header=TRUE, stringsAsFactors = FALSE)
+
+na.index <-  which(is.na(pheno$Derregressed_BV))
+pheno <- pheno[-na.index, ]
+y <- pheno$Derregressed_BV
+y <- matrix(y, ncol=1)
+
+Z <- read.table("cache/Z.txt")
+Zs <- scale(Z, center = TRUE, scale = TRUE)
+
+
+### the main code:
+# out <- run_cv(y, Zs, n=2, k=5)
+out <- run_cv(y, Zs, n=20, k=10)
+write.table(out, "cache/gblup_rrblup_comp.csv", sep=",", row.names = FALSE, quote=FALSE)
+```
+
+# plot the results
+
+```{r}
+out <- read.csv("cache/gblup_rrblup_comp.csv")
+library(tidyr)
+df <- gather(out, key="method", value="value")
+
+library(ggplot2)
+p <- ggplot(df, aes(x=method, y=value, fill=method)) + 
+  geom_violin(trim=FALSE) +
+  scale_fill_manual(values=c("#E69F00", "#56B4E9")) +
+  geom_boxplot(width=0.1, fill="white") +
+  theme_classic()
+p
+```
+
