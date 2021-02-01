@@ -1,0 +1,236 @@
+---
+title: "Lab7: research report"
+author: "Jinliang Yang"
+date: "02-27-2020"
+output: html_notebook
+---
+
+
+# How to present your results?
+
+### Rmarkdown report
+
+### Research presentation
+
+### Research poster and paper
+
+### Personal website
+
+
+---
+
+# How to present your results?
+
+### Rmarkdown report
+  - R Notebook
+
+### Research presentation
+
+### Research poster and paper
+
+### Personal website
+
+
+---
+
+# R Markdown
+
+R Markdown is a format for writing __reproducible__, __dynamic__ reports with R.
+- We can use it to embed R (or python, bash, etc.) code and results into _slideshows_, _pdfs_, _html_ documents, _Word_ files and more.
+
+--
+
+### Workflow
+
+1. __Open__: Open a file that uses the `.Rmd` extension. 
+  - For example, `R Notebook`
+
+2. __Write__: Write content with the easy to use R __Markdown syntax__.
+
+3. __Embed__: Embed code that creates output to include in the report.
+
+4. __Render__: Replace code with its output and transform the report into a slideshow, pdf, html or ms Word file.
+
+
+---
+
+#	Markdown Syntax
+
+| Syntax | Description |
+| :-----------: | :-----------: |
+|   Heading	  |  `# H1`          |
+|     |  `## H2`         |
+|     |  `### H3`          |
+| Bold |	`**bold text**`  |
+| Italic |	`*italicized text*` |
+| Blockquote |	`> blockquote` |
+| Ordered List |	`1. First item` |
+|    |            `2. Second item` |
+|    |              `3. Third item` |
+| Unordered List  |	`- First item` |
+|   |            `- Second item` |
+|   |     `- Third item`  |
+| Horizontal Rule |	--- |
+| Link  |	`[title](https://www.example.com)` |
+| Image	 |  `![alt text](image.jpg)`  |
+
+
+See here to find [Extended Markdown systax](https://www.markdownguide.org/cheat-sheet/)
+
+
+---
+
+# Example: selection
+
+\begin{align*}
+q_1 & = \frac{pq(1-s_{12}) + q^2(1-s_{22})}{T} \\
+ & = \frac{q(p -ps_{12} + q -qs_{22})}{1 - (p^2s_{11} + 2pqs_{12} + q^2s_{22})} \\
+ & = \frac{q(1 -ps_{12} -qs_{22})}{1 - (p^2s_{11} + 2pqs_{12} + q^2s_{22})} \\
+\end{align*}
+
+
+```{r, out.width='30%', fig.align='center', echo=TRUE}
+Dq <- function(q, s11=0, s12=0, s22=0, n=10){
+  
+  out <- data.frame(n=0, q=q)
+  # loop through n generations
+  for (i in 1:n){
+    p = 1 - q
+    q <- (q*(1-p*s12 - q*s22))/(1- (p^2*s11 + 2*p*q*s12 + q^2*s22))
+    tem <- data.frame(n=i, q= q)
+    out <- rbind(out, tem)
+  }
+  return(out)
+}
+```
+
+- We completely select against the __heterozygote $A_1A_2$ with $s_{12}=1$__
+- Selection coeffecients are $s_{11} = s_{22} =0$ for $A_1A_1$ and $A_2A_2$ genotypes.
+
+---
+
+# About the YAML header
+
+
+```
+---
+title: "Hello R Markdown"
+author: "Awesome Me"
+date: "2018-02-14"
+output: html_document
+---
+```
+
+YAML (YAML Ain’t Markup Language, https://en.wikipedia.org/wiki/YAML)
+  - sometimes it is also called the YAML metadata or the YAML frontmatter.
+
+
+### Warning!
+
+__Indentation matters in YAML__, so do not forget to indent the sub-fields of a top field properly
+
+
+---
+
+# Embed Code
+
+Use `knitr` syntax to embed R code into your report. 
+- R will run the code and include the results when you render your report.
+
+<div align="center">
+<img src="rmd.png" height=300>
+</div>
+
+For more details visit [yihui's website](yihui.name/knitr/) 
+
+---
+
+# How to present your results?
+
+### Rmarkdown report
+
+### Research presentation
+ - xaringan Presentations
+
+### Research poster and paper
+
+### Personal website
+
+---
+
+# Get started with Xaringan presentations
+
+First of all, you need to install the R package:
+
+```{r, eval=FALSE}
+# install from CRAN
+install.packages('xaringan')
+
+# or GitHub
+devtools::install_github('yihui/xaringan')
+```
+
+
+If you use RStudio, it is easy to get started from the menu 
+- `File -> New File -> R Markdown -> From Template -> Ninja Presentation`. 
+- Press the Knit button to compile it, or use the RStudio addin `Infinite Moon Reader` to live preview the slides: 
+  - every time you update and save the Rmd document, the slides will be automatically reloaded.
+
+
+---
+
+# How to present your results?
+
+### Rmarkdown report
+  - R Notebook
+
+### Research presentation
+ - xaringan Presentations
+
+### Research poster and paper
+  - LaTeX editor
+
+### Personal website
+  - Blogdown
+  
+---
+
+# `Blogdown` for personal website
+
+With `blogdown`, you can write a blog post or a general page in an Rmd document.
+
+Because the website is generated from R Markdown, the content is more likely to be reproducible, and also easier to maintain.
+
+--
+
+### Get started
+
+```{r, eval=FALSE}
+# from CRAN
+install.packages("blogdown")
+
+# or the development version from GitHub
+devtools::install_github("rstudio/blogdown")
+
+```
+
+The easiest way to get started with a blogdown-based website is to create a website project from RStudio: 
+- `File -> New Project`
+
+
+---
+
+# Website
+
+The first time when you create a new website, `blogdown` will do a series of things behind the scenes: 
+- it downloads __[Hugo](https://gohugo.io/)__ (the default static site generator)
+- creates a website skeleton, 
+- installs a theme, 
+- adds some example posts, 
+- builds the site, 
+- and serves it 
+so that you can see the website in your browser (or RStudio Viewer if you are in RStudio). 
+
+It will not go through all these steps again the next time when you work on this website. All you need in the future is `blogdown::serve_site()`, or equivalently, the RStudio addin `Serve Site`.
+
+
